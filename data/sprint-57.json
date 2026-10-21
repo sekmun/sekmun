@@ -7,7 +7,47 @@
   "forecast": 260,
   "completed": 744,
   "totalEffort": 799,
-  "nonWorking": ["2026-09-05", "2026-09-06", "2026-09-12", "2026-09-13"],
-  "completedDaily": [245, 0, 30, 30, 35, 0, 18, 32, 55, 30, 45, 115, 25, 84],
-  "totalEffortCumulative": [375, 375, 375, 395, 400, 405, 440, 445, 460, 540, 540, 585, 660, 799]
+  "nonWorking": [
+    "2026-09-05",
+    "2026-09-06",
+    "2026-09-12",
+    "2026-09-13"
+  ],
+  "completedDaily": [
+    245,
+    0,
+    30,
+    30,
+    35,
+    0,
+    18,
+    32,
+    55,
+    30,
+    45,
+    115,
+    25,
+    84
+  ],
+  "totalEffortCumulative": [
+    375,
+    375,
+    375,
+    395,
+    400,
+    405,
+    440,
+    445,
+    460,
+    540,
+    540,
+    585,
+    660,
+    799
+  ],
+  "event": {
+    "date": "2026-09-09",
+    "label": "9 Sep: DeepSeek V4.1 Flash goes live",
+    "sub": "Cheap tokens, so loops run unattended, without 5-hour windows"
+  }
 }

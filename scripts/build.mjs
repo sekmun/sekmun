@@ -77,7 +77,7 @@ function inflection() {
 ${months}${cells}
 <g style="animation:in .6s ${t}s both">
   <line x1="${peakX}" y1="${peakY - 2}" x2="${peakX}" y2="${top - 22}" class="sa" stroke-width="1"/>
-  <text x="${peakX - 6}" y="${top - 26}" font-size="11" text-anchor="end" font-weight="600" class="fa">peak ${peak.c} · ${fmt(peak.d)}</text>
+  <text x="${peakX - 6}" y="${top - 26}" font-size="11" text-anchor="end" font-weight="600" class="fa">${sprint.event ? `cheap tokens from ${fmt(parse(sprint.event.date))} · ` : ""}peak ${peak.c} on ${fmt(peak.d)}</text>
   <path d="M${x0} ${by}v6h${x1 - x0}v-6" fill="none" class="sa" stroke-width="1.5"/>
   <text x="${(x0 + x1) / 2}" y="${by + 22}" font-size="12" text-anchor="middle" font-weight="700" class="fa">Sprint ${sprint.sprint}: ${sprint.completed} pts · ${Math.round((sprint.completed / sprint.forecast) * 100)}% of forecast</text>
 </g>
@@ -119,6 +119,12 @@ function sprintSvg() {
   });
   const last = xe(days - 1);
   const pct = Math.round((sprint.completed / sprint.forecast) * 100);
+  const ev = sprint.event ? Math.round((parse(sprint.event.date) - start) / DAY) : -1;
+  const evMark = ev < 0 ? "" : `<g style="animation:in .5s 1.6s both">
+  <line x1="${L + colW * ev}" x2="${L + colW * ev}" y1="${T - 4}" y2="${B}" class="sa" stroke-width="1.2" stroke-dasharray="4 3"/>
+  <text x="${L + colW * ev - 8}" y="${T + 12}" font-size="12" text-anchor="end" font-weight="700" class="fa">${sprint.event.label}</text>
+  <text x="${L + colW * ev - 8}" y="${T + 28}" font-size="11" text-anchor="end" class="mute">${sprint.event.sub}</text>
+</g>`;
   const big = sprint.completedDaily.indexOf(Math.max(...sprint.completedDaily.slice(1)));
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H + 20}" width="${W}" height="${H + 20}" role="img" aria-labelledby="t d">
 <title id="t">Sprint ${sprint.sprint} burnup — ${sprint.completed} points against a ${sprint.forecast}-point forecast</title>
@@ -127,6 +133,7 @@ function sprintSvg() {
 <text x="${L}" y="30" font-size="20" font-weight="700">Sprint ${sprint.sprint} <tspan font-weight="400" class="mute">· ${fmt(start)} – ${fmt(dates[days - 1])} ${start.getUTCFullYear()} · one engineer + agent loop</tspan></text>
 <text x="${L}" y="50" font-size="12" class="mute">Daily completed points (bars), cumulative completed, scope, and the locked forecast.</text>
 ${wk}${grid}${bars}
+${evMark}
 <path d="${stepPath(guide)}" fill="none" class="sm" stroke-width="1.5" stroke-dasharray="3 4" style="animation:in .4s .2s both"/>
 <path d="${stepPath(sprint.totalEffortCumulative)}" fill="none" class="ss" stroke-width="1.2" style="animation:in .4s .4s both"/>
 <path d="${stepPath(cum)}" fill="none" class="sa" stroke-width="3" stroke-linejoin="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1" style="animation:draw 2.2s .3s ease-out forwards"/>
