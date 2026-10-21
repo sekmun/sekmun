@@ -4,7 +4,7 @@ One engineer, an agent loop, and a backlog that keeps running out.
 
 <a href="https://sekmun.com"><img src="site/assets/inflection.svg" width="900" alt="2,392 GitHub contributions in the last 12 months: near-empty for six months, then ramping to a peak of 142 on 13 September during sprint 57."></a>
 
-**Sprint 57 was forecast at 260 points. The loop closed 744.** Scope grew from 260 to 799 while it ran, and work kept landing over both weekends.
+**Sprint 57 was forecast at 260 points. The loop closed 744.** Scope grew from 260 to 799 while it ran, and work kept landing over both weekends. What changed on 9 September was cost: DeepSeek V4.1 Flash went live, tokens got cheap enough to leave the loop running unattended, and the 5-hour usage windows stopped deciding when work happened.
 
 <a href="https://sekmun.com"><img src="site/assets/sprint.svg" width="900" alt="Burnup for sprint 57: 744 points completed against a 260-point forecast, with GitHub contributions for the same days underneath."></a>
 
