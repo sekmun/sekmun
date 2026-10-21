@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sek-Mun Wong, staff AI engineer</title>
+<meta name="description" content="Agentic loop engineering: one engineer, 744 story points against a 260-point forecast in a single sprint. 45 years of shipping software.">
+<meta property="og:title" content="Sek-Mun Wong, staff AI engineer">
+<meta property="og:description" content="744 story points against a 260-point forecast, in one sprint, with an agent loop.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #fbfaf8; --ink: #1c1917; --mute: #78716c; --rule: #e7e5e4; --heat: #ea580c; --heat-soft: #fde9b8;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --paper: #1a1714; --ink: #f5f5f4; --mute: #a8a29e; --rule: #33302c; --heat: #fb923c; --heat-soft: #4a3410; color-scheme: dark; }
+  }
+  :root[data-theme="dark"] { --paper: #1a1714; --ink: #f5f5f4; --mute: #a8a29e; --rule: #33302c; --heat: #fb923c; --heat-soft: #4a3410; color-scheme: dark; }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0; background: var(--paper); color: var(--ink);
+    font: 400 1.0625rem/1.6 "Schibsted Grotesk", system-ui, sans-serif;
+  }
+  main { max-width: 60rem; margin: 0 auto; padding: 4rem 1rem 6rem; }
+  .prose { max-width: 38rem; }
+  a { color: inherit; text-decoration-color: var(--heat); text-underline-offset: .2em; text-decoration-thickness: 2px; }
+  a:focus-visible { outline: 3px solid var(--heat); outline-offset: 3px; border-radius: 2px; }
+
+  header p.name { margin: 0 0 1.25rem; font-weight: 500; color: var(--mute); }
+  h1 {
+    margin: 0 0 2.5rem; max-width: 15ch;
+    font-size: clamp(2.4rem, 6.5vw, 4.4rem); line-height: 1.02; font-weight: 800; letter-spacing: -.035em;
+  }
+  h2 { font-size: 1.75rem; line-height: 1.15; font-weight: 700; letter-spacing: -.02em; margin: 0 0 1rem; }
+  section { margin-top: 5.5rem; }
+  figure { margin: 0; }
+  figure img { display: block; width: 100%; height: auto; }
+  figcaption { margin-top: .75rem; color: var(--mute); font-size: .9375rem; max-width: 38rem; }
+  .chart { overflow-x: auto; }
+  .chart img { min-width: 40rem; }
+
+  .finding {
+    margin: 2rem 0 0; padding-left: 1.25rem; border-left: 3px solid var(--heat);
+    font-size: 1.3rem; line-height: 1.4; font-weight: 500; max-width: 34rem;
+  }
+
+  ol.loop { list-style: none; counter-reset: s; padding: 0; margin: 2rem 0 0; display: grid; gap: 0; max-width: 44rem; }
+  ol.loop li {
+    counter-increment: s; display: grid; grid-template-columns: 3rem 1fr; padding: 1.1rem 0;
+    border-top: 1px solid var(--rule);
+  }
+  ol.loop li::before { content: counter(s); font-weight: 800; font-size: 1.4rem; color: var(--heat); line-height: 1.3; }
+  ol.loop strong { display: block; font-weight: 700; }
+  ol.loop span { color: var(--mute); }
+
+  dl.facts { display: grid; grid-template-columns: max-content 1fr; gap: .6rem 2rem; margin: 1.5rem 0 0; max-width: 44rem; }
+  dl.facts dt { color: var(--mute); }
+  dl.facts dd { margin: 0; }
+
+  footer { margin-top: 6rem; padding-top: 1.5rem; border-top: 1px solid var(--rule); color: var(--mute); font-size: .9375rem; display: flex; flex-wrap: wrap; gap: .5rem 2rem; }
+
+  @media (max-width: 34rem) {
+    main { padding-top: 2.5rem; }
+    dl.facts { grid-template-columns: 1fr; gap: .1rem; }
+    dl.facts dd { margin-bottom: .8rem; }
+  }
+  @media print {
+    :root { --paper: #fff; --ink: #000; }
+    main { padding: 0; max-width: none; }
+    section { margin-top: 2rem; break-inside: avoid; }
+    .chart img { min-width: 0; }
+    footer a::after { content: " (" attr(href) ")"; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <p class="name">Sek-Mun Wong, Sydney</p>
+    <h1>One engineer, an agent loop, and a backlog that keeps running out.</h1>
+    <figure class="chart">
+      <img src="/assets/inflection.svg" width="900" height="243"
+           alt="GitHub contribution heatmap for the last 12 months: 2,392 contributions, near-empty from October to February, ramping from June, peaking at 142 on 13 September during sprint 57.">
+      <figcaption>My GitHub contributions over the last year, refreshed nightly.</figcaption>
+    </figure>
+  </header>
+
+  <section aria-labelledby="sprint">
+    <h2 id="sprint">The sprint: 744 points against a 260-point forecast</h2>
+    <div class="prose">
+      <p>Sprint 57 on the Unified product was planned at 260 points. The loop closed 744. Scope was written and fed in while the sprint ran, growing from 260 to 799 points, and work kept landing over both weekends.</p>
+    </div>
+    <figure class="chart">
+      <img src="/assets/sprint.svg" width="900" height="450"
+           alt="Burnup chart for sprint 57, 31 August to 13 September 2026. Completed points climb from 245 to 744 against a forecast line that ends at 260. Scope grows to 799. The busiest days in GitHub fall on 11 to 13 September, matching the steepest part of the burnup.">
+      <figcaption>Points from ClickUp, contributions from GitHub, plotted on the same days. Two systems that don't know about each other agree on when the work happened.</figcaption>
+    </figure>
+    <p class="finding">Recent sprints have finished with the backlog empty. The bottleneck stopped being engineering and became specification.</p>
+  </section>
+
+  <section aria-labelledby="loop">
+    <h2 id="loop">How the loop works</h2>
+    <div class="prose"><p>The agents write the code. The engineering is in the gates that decide what gets through.</p></div>
+    <!-- EDIT: replace each step with what you actually ran, and add real counts where you have them. -->
+    <ol class="loop">
+      <li><div><strong>Write the ticket as a contract</strong><span>Acceptance criteria an agent can be tested against, not a description of intent.</span></div></li>
+      <li><div><strong>Run it through the harness</strong><span>omp.sh driving Claude and other models, choosing the model per task rather than tying the workflow to one vendor.</span></div></li>
+      <li><div><strong>Gate on coverage</strong><span>Unit tests run on every change, and coverage can't go down. An agent can't pass by deleting a test.</span></div></li>
+      <li><div><strong>Check the front end</strong><span>Browser tests act as the oracle for UI work, so the loop closes without a person clicking through.</span></div></li>
+      <li><div><strong>Review with a different model</strong><span>The model that writes the change doesn't approve it.</span></div></li>
+      <li><div><strong>Ship to the edge</strong><span>Merged work deploys to Cloudflare. This page is built and deployed the same way.</span></div></li>
+    </ol>
+  </section>
+
+  <section aria-labelledby="before">
+    <h2 id="before">Before the loop</h2>
+    <dl class="facts">
+      <dt>Writing code</dt><dd>45 years, now architecting at cloud scale</dd>
+      <dt>Founded</dt><dd>Two startups taken to exit, including Hey You</dd>
+      <dt>Led</dt><dd>Engineering teams of 10 to 20 as CTO; organisations up to 55 as CEO</dd>
+      <dt>Domains</dt><dd>Card-not-present payments and PCI DSS, hospitality, healthcare, banking, recruitment</dd>
+      <dt>Now looking for</dt><dd>Staff AI engineer and other senior individual-contributor roles</dd>
+    </dl>
+  </section>
+
+  <footer>
+    <a href="https://www.linkedin.com/in/sekmun/">LinkedIn</a>
+    <a href="https://github.com/sekmun">GitHub</a>
+    <span>Built as plain HTML and SVG, served from a Cloudflare Worker.</span>
+  </footer>
+</main>
+<script>
+  // On narrow screens the charts scroll sideways; open them on the recent, busy end.
+  for (const el of document.querySelectorAll(".chart")) {
+    const img = el.querySelector("img");
+    const end = () => { el.scrollLeft = el.scrollWidth; };
+    img.complete ? end() : img.addEventListener("load", end);
+  }
+</script>
+</body>
+</html>

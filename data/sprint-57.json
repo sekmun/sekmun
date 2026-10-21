@@ -1,0 +1,13 @@
+{
+  "_note": "Sprint #57, Unified Engineering Sprints (ClickUp). Totals are exact from ClickUp. Daily values were read off the burnup chart and are approximate; replace with exported figures when available. Daily values must sum to `completed`.",
+  "sprint": "#57",
+  "board": "Unified Engineering Sprints",
+  "start": "2026-08-31",
+  "end": "2026-09-13",
+  "forecast": 260,
+  "completed": 744,
+  "totalEffort": 799,
+  "nonWorking": ["2026-09-05", "2026-09-06", "2026-09-12", "2026-09-13"],
+  "completedDaily": [245, 0, 30, 30, 35, 0, 18, 32, 55, 30, 45, 115, 25, 84],
+  "totalEffortCumulative": [375, 375, 375, 395, 400, 405, 440, 445, 460, 540, 540, 585, 660, 799]
+}

@@ -1,16 +1,22 @@
-## Hi there 👋
+### Sek-Mun Wong
+
+One engineer, an agent loop, and a backlog that keeps running out.
+
+<a href="https://sekmun.com"><img src="site/assets/inflection.svg" width="900" alt="2,392 GitHub contributions in the last 12 months: near-empty for six months, then ramping to a peak of 142 on 13 September during sprint 57."></a>
+
+**Sprint 57 was forecast at 260 points. The loop closed 744.** Scope grew from 260 to 799 while it ran, and work kept landing over both weekends.
+
+<a href="https://sekmun.com"><img src="site/assets/sprint.svg" width="900" alt="Burnup for sprint 57: 744 points completed against a 260-point forecast, with GitHub contributions for the same days underneath."></a>
+
+The agents write the code. The engineering is in the gates: tickets written as contracts, a coverage ratchet, browser tests as the oracle, and review by a different model than the one that wrote the change. Harness: [omp.sh](https://omp.sh) with Claude and other models. Everything ships to Cloudflare's edge, including [sekmun.com](https://sekmun.com).
+
+45 years writing software · two startup exits · CTO in payments (PCI DSS) · now looking for staff AI engineer roles.
+
+[sekmun.com](https://sekmun.com) · [LinkedIn](https://www.linkedin.com/in/sekmun/)
 
 <!--
-**sekmun/sekmun** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
-
-Here are some ideas to get you started:
-
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
+This repo also builds sekmun.com.
+  data/            contributions (refreshed nightly) and sprint figures
+  scripts/         build.mjs renders the SVGs; refresh-contributions.mjs pulls GitHub data
+  site/            the static site served by a Cloudflare Worker (wrangler.jsonc)
 -->
