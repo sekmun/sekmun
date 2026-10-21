@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 450" width="900" height="450" role="img" aria-labelledby="t d">
 <title id="t">Sprint #57 burnup — 744 points against a 260-point forecast</title>
-<desc id="d">Unified Engineering Sprints sprint #57, 31 Aug to 13 Sep. Forecast 260 points; 744 completed (286%). Scope grew to 799 points during the sprint.</desc>
+<desc id="d">Sprint #57, 31 Aug to 13 Sep. Forecast 260 points; 744 completed (286%). Scope grew to 799 points during the sprint.</desc>
 <style>
   :root{--ink:#1c1917;--mute:#78716c;--rule:#d6d3d1;--l0:#ebe8e4;--l1:#fde9b8;--l2:#fbc65a;--l3:#f59e0b;--l4:#ea580c;--l5:#c2280f;--acc:#ea580c;--scope:#a8a29e;--wk:#f5f3f0}
   @media (prefers-color-scheme:dark){:root{--ink:#f5f5f4;--mute:#a8a29e;--rule:#44403c;--l0:#292524;--l1:#4a3410;--l2:#7c4f0b;--l3:#c27408;--l4:#f97316;--l5:#ff5a36;--acc:#fb923c;--scope:#78716c;--wk:#1f1c1a}}

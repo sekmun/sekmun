@@ -128,7 +128,7 @@ function sprintSvg() {
   const big = sprint.completedDaily.indexOf(Math.max(...sprint.completedDaily.slice(1)));
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H + 20}" width="${W}" height="${H + 20}" role="img" aria-labelledby="t d">
 <title id="t">Sprint ${sprint.sprint} burnup — ${sprint.completed} points against a ${sprint.forecast}-point forecast</title>
-<desc id="d">${sprint.board} sprint ${sprint.sprint}, ${fmt(start)} to ${fmt(dates[days - 1])}. Forecast ${sprint.forecast} points; ${sprint.completed} completed (${pct}%). Scope grew to ${sprint.totalEffort} points during the sprint.</desc>
+<desc id="d">Sprint ${sprint.sprint}, ${fmt(start)} to ${fmt(dates[days - 1])}. Forecast ${sprint.forecast} points; ${sprint.completed} completed (${pct}%). Scope grew to ${sprint.totalEffort} points during the sprint.</desc>
 <style>${theme}</style>
 <text x="${L}" y="30" font-size="20" font-weight="700">Sprint ${sprint.sprint} <tspan font-weight="400" class="mute">· ${fmt(start)} – ${fmt(dates[days - 1])} ${start.getUTCFullYear()} · one engineer + agent loop</tspan></text>
 <text x="${L}" y="50" font-size="12" class="mute">Daily completed points (bars), cumulative completed, scope, and the locked forecast.</text>

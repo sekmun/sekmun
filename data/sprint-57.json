@@ -1,7 +1,6 @@
 {
-  "_note": "Sprint #57, Unified Engineering Sprints (ClickUp). Totals are exact from ClickUp. Daily values were read off the burnup chart and are approximate; replace with exported figures when available. Daily values must sum to `completed`.",
+  "_note": "Sprint #57 (ClickUp). Totals are exact from ClickUp. Daily values were read off the burnup chart and are approximate; replace with exported figures when available. Daily values must sum to `completed`.",
   "sprint": "#57",
-  "board": "Unified Engineering Sprints",
   "start": "2026-08-31",
   "end": "2026-09-13",
   "forecast": 260,

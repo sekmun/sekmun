@@ -49,30 +49,39 @@
     font-size: 1.3rem; line-height: 1.4; font-weight: 500; max-width: 34rem;
   }
 
-  ol.loop { list-style: none; counter-reset: s; padding: 0; margin: 2rem 0 0; display: grid; gap: 0; max-width: 44rem; }
-  ol.loop li {
-    counter-increment: s; display: grid; grid-template-columns: 3rem 1fr; padding: 1.1rem 0;
-    border-top: 1px solid var(--rule);
-  }
-  ol.loop li::before { content: counter(s); font-weight: 800; font-size: 1.4rem; color: var(--heat); line-height: 1.3; }
-  ol.loop strong { display: block; font-weight: 700; }
-  ol.loop span { color: var(--mute); }
+  .study { max-width: 40rem; }
+  .study h3 { font-size: 1.2rem; line-height: 1.3; font-weight: 700; letter-spacing: -.01em; margin: 3rem 0 .6rem; }
+  .study p { margin: 0 0 1rem; }
+  .study ul { margin: 0 0 1rem; padding-left: 1.2rem; }
+  .study li { margin-bottom: .35rem; }
+  .study li::marker { color: var(--heat); }
 
-  dl.facts { display: grid; grid-template-columns: max-content 1fr; gap: .6rem 2rem; margin: 1.5rem 0 0; max-width: 44rem; }
-  dl.facts dt { color: var(--mute); }
-  dl.facts dd { margin: 0; }
+  table.record { border-collapse: collapse; margin: 1.5rem 0 1.75rem; font-variant-numeric: tabular-nums; width: 100%; }
+  table.record caption { text-align: left; color: var(--mute); font-size: .9375rem; padding-bottom: .5rem; }
+  table.record th, table.record td { text-align: left; padding: .55rem 1.25rem .55rem 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  table.record thead th { font-weight: 500; color: var(--mute); border-bottom-color: var(--ink); }
+  table.record td.num { white-space: nowrap; font-weight: 700; }
+
+  .diagram { overflow-x: auto; margin: 1.5rem 0 1.75rem; }
+  .diagram svg { display: block; width: 100%; min-width: 36rem; height: auto; }
+  .diagram .box { fill: var(--paper); stroke: var(--ink); stroke-width: 1.2; }
+  .diagram .edge { fill: var(--heat-soft); }
+  .diagram .wire { fill: none; stroke: var(--mute); stroke-width: 1.4; }
+  .diagram .dash { stroke-dasharray: 5 4; }
+  .diagram .head { fill: var(--mute); }
+  .diagram text { fill: var(--ink); font: 500 18px "Schibsted Grotesk", system-ui, sans-serif; }
+  .diagram text.note { fill: var(--mute); font-size: 15px; font-weight: 400; }
 
   footer { margin-top: 6rem; padding-top: 1.5rem; border-top: 1px solid var(--rule); color: var(--mute); font-size: .9375rem; display: flex; flex-wrap: wrap; gap: .5rem 2rem; }
 
   @media (max-width: 34rem) {
     main { padding-top: 2.5rem; }
-    dl.facts { grid-template-columns: 1fr; gap: .1rem; }
-    dl.facts dd { margin-bottom: .8rem; }
   }
   @media print {
     :root { --paper: #fff; --ink: #000; }
     main { padding: 0; max-width: none; }
-    section { margin-top: 2rem; break-inside: avoid; }
+    section { margin-top: 2rem; }
+    .diagram svg, table.record { break-inside: avoid; min-width: 0; }
     .chart img { min-width: 0; }
     footer a::after { content: " (" attr(href) ")"; }
   }
@@ -93,7 +102,7 @@
   <section aria-labelledby="sprint">
     <h2 id="sprint">The sprint: 744 points against a 260-point forecast</h2>
     <div class="prose">
-      <p>Sprint 57 on the Unified product was planned at 260 points. The loop closed 744. Scope was written and fed in while the sprint ran, growing from 260 to 799 points, and work kept landing over both weekends.</p>
+      <p>Sprint 57 was planned at 260 points. The loop closed 744. Scope was written and fed in while the sprint ran, growing from 260 to 799 points, and work kept landing over both weekends.</p>
       <p>The loop was already running. What changed on 9 September was cost. DeepSeek V4.1 Flash went live, tokens became cheap enough to leave the loop running unattended, and the 5-hour usage windows stopped dictating when work could happen. The three busiest days of my year followed.</p>
     </div>
     <figure class="chart">
@@ -104,35 +113,97 @@
     <p class="finding">First the constraint was token budget. Remove it, and recent sprints have finished with the backlog empty. The bottleneck is now specification.</p>
   </section>
 
-  <section aria-labelledby="loop">
-    <h2 id="loop">How the loop works</h2>
-    <div class="prose"><p>The agents write the code. The engineering is in the gates that decide what gets through.</p></div>
-    <!-- EDIT: replace each step with what you actually ran, and add real counts where you have them. -->
-    <ol class="loop">
-      <li><div><strong>Write the ticket as a contract</strong><span>Acceptance criteria an agent can be tested against, not a description of intent.</span></div></li>
-      <li><div><strong>Run it through the harness</strong><span>omp.sh driving Claude and other models, choosing the model per task rather than tying the workflow to one vendor.</span></div></li>
-      <li><div><strong>Gate on coverage</strong><span>Unit tests run on every change, and coverage can't go down. An agent can't pass by deleting a test.</span></div></li>
-      <li><div><strong>Check the front end</strong><span>Browser tests act as the oracle for UI work, so the loop closes without a person clicking through.</span></div></li>
-      <li><div><strong>Review with a different model</strong><span>The model that writes the change doesn't approve it.</span></div></li>
-      <li><div><strong>Ship to the edge</strong><span>Merged work deploys to Cloudflare. This page is built and deployed the same way.</span></div></li>
-    </ol>
-  </section>
+  <section aria-labelledby="practice">
+    <h2 id="practice">Production engineering, with agents in the loop</h2>
+    <div class="study">
+      <p>Throughput is the easy part to show. This is how I make agent-written software safe to ship. I use AI agents to deliver production software across TypeScript, Python, PHP and Vue. The leverage comes from the engineering around the models: precise contracts, isolated execution, independent review and evidence-based release gates.</p>
 
-  <section aria-labelledby="before">
-    <h2 id="before">Before the loop</h2>
-    <dl class="facts">
-      <dt>Writing code</dt><dd>45 years, now architecting at cloud scale</dd>
-      <dt>Founded</dt><dd>Two startups taken to exit, including Hey You</dd>
-      <dt>Led</dt><dd>Engineering teams of 10 to 20 as CTO; organisations up to 55 as CEO</dd>
-      <dt>Domains</dt><dd>Card-not-present payments and PCI DSS, hospitality, healthcare, banking, recruitment</dd>
-      <dt>Now looking for</dt><dd>Staff AI engineer and other senior individual-contributor roles</dd>
-    </dl>
+      <h3>Specifications are the control plane</h3>
+      <p>I turn product decisions into implementation contracts: invariants, state transitions, data ownership, failure behaviour and explicit non-goals.</p>
+      <p>Cross-service changes become linked, repository-scoped tickets, with one branch and pull request per repository. Schema ownership and producer/consumer compatibility are settled before either side changes. Accepted time windows, timezones and rule versions are persisted facts, not reconstructed later from current settings.</p>
+      <p>BMAD helps draft and challenge specifications, but generated plans don't outrank shipped code or the live tracker. A useful specification distinguishes what already exists, what is missing and what still needs a human decision.</p>
+
+      <h3>Multiple models, with verifiable independence</h3>
+      <p>I use <a href="https://omp.sh">omp.sh</a> as a model-agnostic orchestration harness. Recent captured runs include Claude Opus 5, GPT-6.1-Sol and DeepSeek Flash and Pro variants, with Kimi K2.7-Code through Kilo used for independent review.</p>
+      <p>Models are selected by role rather than making one vendor the architecture. Repository-scoped agents implement changes; a model from a different family reviews them.</p>
+      <p>I verify which model actually served each response from native routing metadata. A requested model name, or a model describing itself, is not proof. Silent fallback can otherwise make the author review its own work while appearing to provide an independent opinion.</p>
+      <p>These are persistent, tool-using sessions, not single prompts. One orchestration archive spanning 6–21 October contains over 6,800 assistant messages, excluding separate subagent sessions. A recent independent code review ran to 19 recorded turns. Those figures describe model interaction and instrumentation, not features delivered or human hours saved. Checkpoints, source identities and retained evidence let work resume after interruptions without blindly restarting completed implementation.</p>
+
+      <h3>Delivery is measured against contracts</h3>
+      <p>Story points and model turns are separate ledgers. Points describe accepted backlog scope; turns describe model interaction, investigation and review. Stories are pointed, epics stay unpointed, and scope growth is tracked separately from completed work. Points are an internal complexity measure, not a comparison with another team's velocity or a conversion into engineer-hours.</p>
+      <p>Agents work in isolated Git worktrees and disposable databases. Repository-specific checks cover formatting, types, behavioural tests, schema compatibility and real runtime smoke checks.</p>
+      <table class="record">
+        <caption>Verification record for a recent backend change</caption>
+        <thead><tr><th scope="col">Check</th><th scope="col">Recorded result</th></tr></thead>
+        <tbody>
+          <tr><td>Real-Postgres regression suite</td><td><b>1,726 passed</b>; 7 disclosed environment-dependent skips</td></tr>
+          <tr><td>Schema preflight</td><td>20 cases passed</td></tr>
+          <tr><td>SQL lifecycle smoke checks</td><td>8 cases passed</td></tr>
+        </tbody>
+      </table>
+      <p>Review findings are claims to validate, not instructions to obey. Material corrections get a focused re-review; cosmetic churn and endless review loops don't become a substitute for shipping.</p>
+      <p>Browser verification exercises the real application. Viewports are asserted and transitions controlled so the measuring instrument doesn't invent layout bugs. Local fault injection and live external-service proof are labelled separately.</p>
+
+      <h3>Edge architecture with a separate batch plane</h3>
+      <figure class="diagram">
+<svg viewBox="0 0 760 520" role="img" aria-labelledby="arch-t arch-d">
+<title id="arch-t">Edge ingestion with a separate batch plane</title>
+<desc id="arch-d">Signed external events enter Cloudflare Workers, Queues and Workflows, which archive raw events to R2 for a Python batch tier on Fly.io and also write to PostgreSQL with pgvector through Hyperdrive. Interactive commands go to FastAPI on Fly.io, which writes to the same PostgreSQL. Laravel with Octane and Vue sits on top of PostgreSQL.</desc>
+<rect class="box" x="40" y="10" width="300" height="48" rx="6"/><text x="190.0" y="40" text-anchor="middle">Signed external events</text>
+<rect class="box" x="420" y="10" width="300" height="48" rx="6"/><text x="570.0" y="40" text-anchor="middle">Interactive commands</text>
+<rect class="box edge" x="40" y="100" width="300" height="48" rx="6"/><text x="190.0" y="130" text-anchor="middle">Workers, Queues, Workflows</text>
+<rect class="box" x="420" y="100" width="300" height="48" rx="6"/><text x="570.0" y="130" text-anchor="middle">FastAPI on Fly.io</text>
+<rect class="box edge" x="40" y="190" width="300" height="48" rx="6"/><text x="190.0" y="220" text-anchor="middle">R2 raw archive</text>
+<rect class="box" x="40" y="280" width="300" height="48" rx="6"/><text x="190.0" y="310" text-anchor="middle">Python batch on Fly.io</text>
+<rect class="box" x="40" y="370" width="680" height="48" rx="6"/><text x="380.0" y="400" text-anchor="middle">PostgreSQL and pgvector</text>
+<rect class="box" x="40" y="460" width="680" height="48" rx="6"/><text x="380.0" y="490" text-anchor="middle">Laravel / Octane and Vue</text>
+<path class="wire" d="M190 58V93"/><path class="head" d="M185 92L190 100L195 92z"/>
+<path class="wire" d="M570 58V93"/><path class="head" d="M565 92L570 100L575 92z"/>
+<path class="wire" d="M190 148V183"/><path class="head" d="M185 182L190 190L195 182z"/>
+<path class="wire" d="M190 238V273"/><path class="head" d="M185 272L190 280L195 272z"/>
+<path class="wire" d="M190 328V363"/><path class="head" d="M185 362L190 370L195 362z"/>
+<path class="wire" d="M570 148V363"/><path class="head" d="M565 362L570 370L575 362z"/>
+<path class="wire" d="M380 418V453"/><path class="head" d="M375 452L380 460L385 452z"/>
+<path class="wire dash" d="M340 124H380V363"/><path class="head" d="M375 362L380 370L385 362z"/>
+<text class="note" x="392" y="262">Hyperdrive</text>
+</svg>
+        <figcaption>Shaded components run on Cloudflare's edge: Workers, Queues and Workflows ingest; R2 holds the raw archive.</figcaption>
+      </figure>
+      <p>Durable Objects coordinate per-workspace ingestion claims; KV caches configuration. Eloquent-owned migrations and typed Drizzle and SQLAlchemy mirrors stop services independently redefining the same database contract.</p>
+      <p>The ingestion boundary validates signed events and coordinates provisional deduplication claims. A claim is confirmed only after enqueue succeeds, and released if enqueue fails. Live processing and archival have separate retry and dead-letter paths, so archive problems can't consume the live processing budget.</p>
+      <p>Retrospective processing runs in a separate Python batch tier. Raw object-storage events are compacted into day-and-tenant-partitioned Iceberg tables, then transformed into application-facing data. Embedding reuse, cached configuration and bounded cluster-labelling work make model cost an architectural concern, not just a billing alert.</p>
+
+      <h3>Scale is a design claim until it is measured</h3>
+      <p>Capacity modelling has covered 1,000 workspaces and roughly 1.5 million messages a day. Those are planning assumptions, not claims about current production traffic.</p>
+      <p>Performance work uses query plans and representative fixtures rather than adding indexes by intuition. A recorded synthetic benchmark used a 200,000-row fixture:</p>
+      <table class="record">
+        <thead><tr><th scope="col">Hot lookup</th><th scope="col">Before</th><th scope="col">After</th></tr></thead>
+        <tbody><tr><td>Thread-parent lookup</td><td>35.7 ms</td><td class="num">0.10 ms</td></tr></tbody>
+      </table>
+      <p>Partial and expression indexes changed the query plan. The obvious indexes weren't enough: both branches of an OR expression had to become indexable. This is a documented fixture result, not a production latency SLA.</p>
+
+      <h3>Security lives in the boundaries</h3>
+      <p>The request tier combines workspace-scoped authorisation with PostgreSQL row-level security, tested under a non-bypass database role. Privileged ingest and batch services have a separately documented trust boundary; I don't describe RLS as universal protection. Other controls include:</p>
+      <ul>
+        <li>Raw-body HMAC verification and bounded replay windows.</li>
+        <li>Single-use, user-bound OAuth state.</li>
+        <li>Encrypted credentials excluded from normal serialisation.</li>
+        <li>Explicit channel-access scopes and privacy classification.</li>
+        <li>Audited, expiring operator sessions with verified revocation.</li>
+      </ul>
+      <p>Access is represented as all, assigned or none, never an ambiguous empty array that can accidentally disable filtering. The verification matters as much as the mechanism: a test running as a database superuser can't prove that tenant isolation works.</p>
+
+      <h3>A green pipeline is not the end of the work</h3>
+      <p>Merge, release, deployment and activation are separate decisions. Coordinated releases apply additive schema changes before compatible consumers, promote through UAT before production, pin source identities and retain rollback evidence. API and batch container images are promoted unchanged; path filtering avoids redeploying unchanged Workers.</p>
+      <p>I check the running version, health and applied configuration rather than treating a successful workflow as proof of runtime state. Feature activation can be a separate rolling configuration change, without rebuilding accepted code or opting existing customers into new behaviour.</p>
+      <p>A recent scheduled-workflow acceptance case made that distinction concrete: commit the business outcome first, then record delivery independently for each destination. One destination delivered and another was deliberately rejected by the external service. The stored outcome stayed unchanged, the UI reported partial delivery, and the one-off created no successor. Ambiguous sends stay uncertain rather than being reported as success or blindly replayed.</p>
+    </div>
+    <p class="finding">The agents do the implementation. I remain accountable for the contracts, architecture, evidence and authority to ship.</p>
   </section>
 
   <footer>
     <a href="https://www.linkedin.com/in/sekmun/">LinkedIn</a>
     <a href="https://github.com/sekmun">GitHub</a>
-    <span>Built as plain HTML and SVG, served from a Cloudflare Worker.</span>
   </footer>
 </main>
 <script>

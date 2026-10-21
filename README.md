@@ -8,9 +8,9 @@ One engineer, an agent loop, and a backlog that keeps running out.
 
 <a href="https://sekmun.com"><img src="site/assets/sprint.svg" width="900" alt="Burnup for sprint 57: 744 points completed against a 260-point forecast, with GitHub contributions for the same days underneath."></a>
 
-The agents write the code. The engineering is in the gates: tickets written as contracts, a coverage ratchet, browser tests as the oracle, and review by a different model than the one that wrote the change. Harness: [omp.sh](https://omp.sh) with Claude and other models. Everything ships to Cloudflare's edge, including [sekmun.com](https://sekmun.com).
+The agents do the implementation. The engineering is around them: specifications as contracts, isolated worktrees and disposable databases, review by a model from a different family (verified from routing metadata, not the model's say-so), and release gates that need evidence. Harness: [omp.sh](https://omp.sh) across Claude, GPT, DeepSeek and Kimi. The full case study is on [sekmun.com](https://sekmun.com).
 
-[sekmun.com](https://sekmun.com) · [LinkedIn](https://www.linkedin.com/in/sekmun/)
+[LinkedIn](https://www.linkedin.com/in/sekmun/) · [sekmun.com](https://sekmun.com)
 
 <!--
 This repo also builds sekmun.com.
