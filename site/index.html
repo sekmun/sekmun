@@ -116,22 +116,21 @@
   <section aria-labelledby="practice">
     <h2 id="practice">Production engineering, with agents in the loop</h2>
     <div class="study">
-      <p>Throughput is the easy part to show. This is how I make agent-written software safe to ship. I use AI agents to deliver production software across TypeScript, Python, PHP and Vue. The leverage comes from the engineering around the models: precise contracts, isolated execution, independent review and evidence-based release gates.</p>
+      <p>The sprint chart shows how much got done. This is the part I care about more: how I make software written by agents safe to ship. I deliver production work across TypeScript, Python, PHP and Vue with agents doing most of the implementation, and whatever leverage I get comes from the engineering around the models. That means clear contracts, isolated execution, independent review, and release gates that ask for evidence.</p>
 
       <h3>Specifications are the control plane</h3>
-      <p>I turn product decisions into implementation contracts: invariants, state transitions, data ownership, failure behaviour and explicit non-goals.</p>
-      <p>Cross-service changes become linked, repository-scoped tickets, with one branch and pull request per repository. Schema ownership and producer/consumer compatibility are settled before either side changes. Accepted time windows, timezones and rule versions are persisted facts, not reconstructed later from current settings.</p>
-      <p>BMAD helps draft and challenge specifications, but generated plans don't outrank shipped code or the live tracker. A useful specification distinguishes what already exists, what is missing and what still needs a human decision.</p>
+      <p>Everything starts with the specification, because it's the main thing steering the agents. Before work begins, I turn a product decision into a contract: the invariants that must hold, how state moves, who owns which data, what happens when things fail, and what we're deliberately not doing.</p>
+      <p>When a change crosses services, it becomes a set of linked tickets, one per repository, each with its own branch and pull request. Schema ownership, and how producers and consumers stay compatible, get settled before either side touches code. Accepted time windows, timezones and rule versions are stored as facts when they're decided, so nobody has to reconstruct them later from whatever the settings happen to say.</p>
+      <p>I use BMAD to draft specifications and to argue with them, but a generated plan never outranks the code that has actually shipped or what's on the live tracker. The best specs are honest about three things: what already exists, what's missing, and what still needs a person to decide.</p>
 
       <h3>Multiple models, with verifiable independence</h3>
-      <p>I use <a href="https://omp.sh">omp.sh</a> as a model-agnostic orchestration harness. Recent captured runs include Claude Opus 5, GPT-6.1-Sol and DeepSeek Flash and Pro variants, with Kimi K2.7-Code through Kilo used for independent review.</p>
-      <p>Models are selected by role rather than making one vendor the architecture. Repository-scoped agents implement changes; a model from a different family reviews them.</p>
-      <p>I verify which model actually served each response from native routing metadata. A requested model name, or a model describing itself, is not proof. Silent fallback can otherwise make the author review its own work while appearing to provide an independent opinion.</p>
-      <p>These are persistent, tool-using sessions, not single prompts. One orchestration archive spanning 6–21 October contains over 6,800 assistant messages, excluding separate subagent sessions. A recent independent code review ran to 19 recorded turns. Those figures describe model interaction and instrumentation, not features delivered or human hours saved. Checkpoints, source identities and retained evidence let work resume after interruptions without blindly restarting completed implementation.</p>
+      <p>Everything runs through <a href="https://omp.sh">omp.sh</a>, which lets me choose models by role instead of building around a single vendor. Recently that has meant Claude Opus 5, GPT-6.1-Sol and DeepSeek's Flash and Pro models on implementation, with Kimi K2.7-Code, through Kilo, as the independent reviewer. The rule is simple: the reviewer comes from a different model family to the author.</p>
+      <p>That rule is only worth something if you can check it. Asking for a model by name doesn't guarantee you got it, and a model telling you who it is proves nothing. Providers can fall back silently, and when that happens the author ends up reviewing its own work while looking like a second opinion. So I confirm which model served each response from the routing metadata itself.</p>
+      <p>These are long-running sessions with tools, rather than one-off prompts. One orchestration archive covering 6 to 21 October holds more than 6,800 assistant messages, before counting subagents, and a recent independent code review ran to 19 turns. Those numbers measure how hard the models worked; they say nothing about features shipped or hours saved. Checkpoints and retained evidence let a session pick up after an interruption without redoing work that's already finished.</p>
 
       <h3>Delivery is measured against contracts</h3>
-      <p>Story points and model turns are separate ledgers. Points describe accepted backlog scope; turns describe model interaction, investigation and review. Stories are pointed, epics stay unpointed, and scope growth is tracked separately from completed work. Points are an internal complexity measure, not a comparison with another team's velocity or a conversion into engineer-hours.</p>
-      <p>Agents work in isolated Git worktrees and disposable databases. Repository-specific checks cover formatting, types, behavioural tests, schema compatibility and real runtime smoke checks.</p>
+      <p>I keep story points and model turns in separate books. Points measure the backlog scope that was agreed and accepted; turns measure how much talking, digging and reviewing the models did. Stories get points and epics don't, and scope growth is tracked apart from completed work. The points are my own complexity measure, so they aren't meant to be compared with another team's velocity, and they don't convert into engineer-hours.</p>
+      <p>Each agent works in its own Git worktree against a throwaway database. Every repository has its own checks: formatting, types, behavioural tests, schema compatibility and smoke tests against a real running system. Here's what a recent backend change had to get through.</p>
       <table class="record">
         <caption>Verification record for a recent backend change</caption>
         <thead><tr><th scope="col">Check</th><th scope="col">Recorded result</th></tr></thead>
@@ -141,8 +140,8 @@
           <tr><td>SQL lifecycle smoke checks</td><td>8 cases passed</td></tr>
         </tbody>
       </table>
-      <p>Review findings are claims to validate, not instructions to obey. Material corrections get a focused re-review; cosmetic churn and endless review loops don't become a substitute for shipping.</p>
-      <p>Browser verification exercises the real application. Viewports are asserted and transitions controlled so the measuring instrument doesn't invent layout bugs. Local fault injection and live external-service proof are labelled separately.</p>
+      <p>I treat review findings as claims to check rather than orders to follow. A real correction gets a focused second review. Cosmetic churn doesn't get to hold up shipping, and neither does a review loop that never ends.</p>
+      <p>Browser tests run against the real application. I pin the viewport and control transitions so the test can't invent layout bugs of its own, and I keep results from local fault injection clearly apart from proof against live external services.</p>
 
       <h3>Edge architecture with a separate batch plane</h3>
       <figure class="diagram">
@@ -169,36 +168,36 @@
 </svg>
         <figcaption>Shaded components run on Cloudflare's edge: Workers, Queues and Workflows ingest; R2 holds the raw archive.</figcaption>
       </figure>
-      <p>Durable Objects coordinate per-workspace ingestion claims; KV caches configuration. Eloquent-owned migrations and typed Drizzle and SQLAlchemy mirrors stop services independently redefining the same database contract.</p>
-      <p>The ingestion boundary validates signed events and coordinates provisional deduplication claims. A claim is confirmed only after enqueue succeeds, and released if enqueue fails. Live processing and archival have separate retry and dead-letter paths, so archive problems can't consume the live processing budget.</p>
-      <p>Retrospective processing runs in a separate Python batch tier. Raw object-storage events are compacted into day-and-tenant-partitioned Iceberg tables, then transformed into application-facing data. Embedding reuse, cached configuration and bounded cluster-labelling work make model cost an architectural concern, not just a billing alert.</p>
+      <p>Durable Objects decide who holds each workspace's ingestion claim, and KV caches configuration. The database schema has one owner, the Laravel migrations, and the TypeScript and Python services work from typed Drizzle and SQLAlchemy mirrors of it. No service can quietly redefine the contract on its own.</p>
+      <p>At the ingestion boundary, each event's signature is checked and a provisional deduplication claim is taken. The claim only becomes final once the event is safely on the queue, and it's released if enqueueing fails. Live processing and archiving have their own retry and dead-letter paths, so trouble with the archive can never eat into the budget for live work.</p>
+      <p>Working back through history is a separate job for a Python batch tier. It compacts the raw events in object storage into Iceberg tables partitioned by day and tenant, then shapes them into data the application can use. Reusing embeddings, caching configuration and capping cluster-labelling work keep model costs under control by design, long before a billing alert would notice.</p>
 
       <h3>Scale is a design claim until it is measured</h3>
-      <p>Capacity modelling has covered 1,000 workspaces and roughly 1.5 million messages a day. Those are planning assumptions, not claims about current production traffic.</p>
-      <p>Performance work uses query plans and representative fixtures rather than adding indexes by intuition. A recorded synthetic benchmark used a 200,000-row fixture:</p>
+      <p>I've modelled capacity for 1,000 workspaces and around 1.5 million messages a day. Those are planning numbers, and I don't present them as today's production traffic.</p>
+      <p>Performance work starts from query plans and realistic fixtures rather than hunches about which index might help. On a synthetic 200,000-row fixture, one hot lookup changed like this:</p>
       <table class="record">
         <thead><tr><th scope="col">Hot lookup</th><th scope="col">Before</th><th scope="col">After</th></tr></thead>
         <tbody><tr><td>Thread-parent lookup</td><td>35.7 ms</td><td class="num">0.10 ms</td></tr></tbody>
       </table>
-      <p>Partial and expression indexes changed the query plan. The obvious indexes weren't enough: both branches of an OR expression had to become indexable. This is a documented fixture result, not a production latency SLA.</p>
+      <p>The fix was a pair of partial and expression indexes that changed the query plan. The obvious indexes didn't help on their own, because both sides of an OR had to become indexable. It's a measured fixture result, and I wouldn't quote it as a production latency guarantee.</p>
 
       <h3>Security lives in the boundaries</h3>
-      <p>The request tier combines workspace-scoped authorisation with PostgreSQL row-level security, tested under a non-bypass database role. Privileged ingest and batch services have a separately documented trust boundary; I don't describe RLS as universal protection. Other controls include:</p>
+      <p>Requests are authorised per workspace, with PostgreSQL row-level security underneath, tested using a database role that can't bypass it. The privileged ingest and batch services sit behind a separately documented trust boundary, so I don't claim row-level security protects everything. Alongside that there are:</p>
       <ul>
-        <li>Raw-body HMAC verification and bounded replay windows.</li>
-        <li>Single-use, user-bound OAuth state.</li>
-        <li>Encrypted credentials excluded from normal serialisation.</li>
-        <li>Explicit channel-access scopes and privacy classification.</li>
-        <li>Audited, expiring operator sessions with verified revocation.</li>
+        <li>raw-body HMAC verification with bounded replay windows</li>
+        <li>single-use OAuth state bound to the user</li>
+        <li>encrypted credentials kept out of normal serialisation</li>
+        <li>explicit channel-access scopes and privacy classification</li>
+        <li>audited operator sessions that expire, with revocation that's verified.</li>
       </ul>
-      <p>Access is represented as all, assigned or none, never an ambiguous empty array that can accidentally disable filtering. The verification matters as much as the mechanism: a test running as a database superuser can't prove that tenant isolation works.</p>
+      <p>One small design choice I'm fond of: access is always all, assigned or none. It's never an empty list, because an empty list is exactly the kind of value that switches filtering off by accident. The testing matters as much as the mechanism here. If your tenant-isolation tests run as a database superuser, they can't prove anything.</p>
 
       <h3>A green pipeline is not the end of the work</h3>
-      <p>Merge, release, deployment and activation are separate decisions. Coordinated releases apply additive schema changes before compatible consumers, promote through UAT before production, pin source identities and retain rollback evidence. API and batch container images are promoted unchanged; path filtering avoids redeploying unchanged Workers.</p>
-      <p>I check the running version, health and applied configuration rather than treating a successful workflow as proof of runtime state. Feature activation can be a separate rolling configuration change, without rebuilding accepted code or opting existing customers into new behaviour.</p>
-      <p>A recent scheduled-workflow acceptance case made that distinction concrete: commit the business outcome first, then record delivery independently for each destination. One destination delivered and another was deliberately rejected by the external service. The stored outcome stayed unchanged, the UI reported partial delivery, and the one-off created no successor. Ambiguous sends stay uncertain rather than being reported as success or blindly replayed.</p>
+      <p>Merging, releasing, deploying and switching a feature on are four separate decisions. Coordinated releases apply additive schema changes before the services that depend on them, go through UAT before production, pin source versions and keep evidence for rollback. API and batch container images are promoted exactly as tested, and Workers that haven't changed aren't redeployed.</p>
+      <p>After a deploy I check what's actually running: the version, its health and its configuration. A green workflow tells me the pipeline finished, which isn't the same as knowing what's live. Turning a feature on can be its own rolling configuration change, so accepted code doesn't need rebuilding and existing customers aren't moved onto new behaviour without choosing it.</p>
+      <p>A recent acceptance test for a scheduled workflow shows why this matters. The business outcome is committed first, and delivery is recorded separately for each destination. In the test, one destination accepted the delivery and the external service deliberately rejected the other. The stored outcome stayed as it was, the interface showed a partial delivery, and the one-off job didn't create a successor. When we can't tell whether a send went through, it stays marked as uncertain; it's never reported as a success or blindly retried.</p>
     </div>
-    <p class="finding">The agents do the implementation. I remain accountable for the contracts, architecture, evidence and authority to ship.</p>
+    <p class="finding">The agents do the implementation. I'm accountable for the contracts, the architecture, the evidence, and the call to ship.</p>
   </section>
 
   <footer>

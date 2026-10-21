@@ -8,7 +8,7 @@ One engineer, an agent loop, and a backlog that keeps running out.
 
 <a href="https://sekmun.com"><img src="site/assets/sprint.svg" width="900" alt="Burnup for sprint 57: 744 points completed against a 260-point forecast, with GitHub contributions for the same days underneath."></a>
 
-The agents do the implementation. The engineering is around them: specifications as contracts, isolated worktrees and disposable databases, review by a model from a different family (verified from routing metadata, not the model's say-so), and release gates that need evidence. Harness: [omp.sh](https://omp.sh) across Claude, GPT, DeepSeek and Kimi. The full case study is on [sekmun.com](https://sekmun.com).
+Agents do most of the implementation. My job is everything around them: writing specifications precise enough to act as contracts, giving each agent its own worktree and a throwaway database, having a model from a different family review the work (and checking the routing metadata to prove it did), and only shipping once the evidence is in. It all runs through [omp.sh](https://omp.sh) across Claude, GPT, DeepSeek and Kimi. The full story is on [sekmun.com](https://sekmun.com).
 
 [LinkedIn](https://www.linkedin.com/in/sekmun/) · [sekmun.com](https://sekmun.com)
 
