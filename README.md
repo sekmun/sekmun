@@ -10,8 +10,6 @@ One engineer, an agent loop, and a backlog that keeps running out.
 
 The agents write the code. The engineering is in the gates: tickets written as contracts, a coverage ratchet, browser tests as the oracle, and review by a different model than the one that wrote the change. Harness: [omp.sh](https://omp.sh) with Claude and other models. Everything ships to Cloudflare's edge, including [sekmun.com](https://sekmun.com).
 
-45 years writing software · two startup exits · CTO in payments (PCI DSS) · now looking for staff AI engineer roles.
-
 [sekmun.com](https://sekmun.com) · [LinkedIn](https://www.linkedin.com/in/sekmun/)
 
 <!--
