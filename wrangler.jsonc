@@ -1,0 +1,13 @@
+{
+  // Static-assets-only Worker: no Worker code, Cloudflare serves ./site at the edge.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "sekmun",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./site"
+  },
+  "routes": [
+    { "pattern": "sekmun.com", "custom_domain": true },
+    { "pattern": "www.sekmun.com", "custom_domain": true }
+  ]
+}

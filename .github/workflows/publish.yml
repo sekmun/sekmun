@@ -1,0 +1,50 @@
+name: Refresh and publish
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "17 18 * * *" # 05:17 Sydney (AEDT)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Refresh GitHub contributions
+        run: node scripts/refresh-contributions.mjs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build charts
+        run: node scripts/build.mjs
+
+      # Commits made with GITHUB_TOKEN don't trigger another run, so this can't loop.
+      - name: Commit refreshed data
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add data site/assets
+            git commit -m "Refresh contributions $(date -u +%F)"
+            git push
+          fi
+
+      - name: Deploy to Cloudflare
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
