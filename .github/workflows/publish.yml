@@ -18,16 +18,17 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
 
       - name: Refresh GitHub contributions
         run: node scripts/refresh-contributions.mjs
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # A personal token sees private-repo contributions; the Actions token undercounts them.
+          GITHUB_TOKEN: ${{ secrets.GH_CONTRIB_TOKEN || secrets.GITHUB_TOKEN }}
 
       - name: Build charts
         run: node scripts/build.mjs
@@ -48,3 +49,11 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          wranglerVersion: "4"
+
+      # Surfaces wrangler's error as an annotation, readable without opening the raw log.
+      - name: Report deploy error
+        if: failure()
+        run: |
+          f=$(ls -t ~/.config/.wrangler/logs/*.log 2>/dev/null | head -1)
+          [ -n "$f" ] && grep -iE "error|✘|code:" "$f" | tail -15 | while IFS= read -r l; do echo "::error title=wrangler::$l"; done || true

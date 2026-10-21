@@ -2,7 +2,7 @@
 
 One engineer, an agent loop, and a backlog that keeps running out.
 
-<a href="https://sekmun.com"><img src="site/assets/inflection.svg" width="900" alt="2,392 GitHub contributions in the last 12 months: near-empty for six months, then ramping to a peak of 142 on 13 September during sprint 57."></a>
+<a href="https://sekmun.com"><img src="site/assets/inflection.svg" width="900" alt="Twelve months of GitHub contributions: near-empty for six months, then ramping from mid-year to a September peak during sprint 57."></a>
 
 **Sprint 57 was forecast at 260 points. The loop closed 744.** Scope grew from 260 to 799 while it ran, and work kept landing over both weekends.
 
