@@ -8,7 +8,7 @@ One engineer, an agent loop, and a backlog that keeps running out.
 
 <a href="https://sekmun.com"><img src="site/assets/sprint.svg" width="900" alt="Burnup for sprint 57: 744 points completed against a 260-point forecast, with GitHub contributions for the same days underneath."></a>
 
-Agents do most of the implementation. My job is everything around them: writing specifications precise enough to act as contracts, giving each agent its own worktree and a throwaway database, having a model from a different family review the work (and checking the routing metadata to prove it did), and only shipping once the evidence is in. It all runs through [omp.sh](https://omp.sh), which I picked after it topped [Composio's comparison of eight agent harnesses](https://composio.dev/content/best-ai-agent-harnesses), across Claude, GPT, DeepSeek and Kimi. The full story is on [sekmun.com](https://sekmun.com).
+Agents do most of the implementation. My job is everything around them: writing specifications precise enough to act as contracts, giving each agent its own worktree and a throwaway database, holding unit-test coverage at 80.71% on the Laravel core and 95.39% on the Python services, having a model from a different family review the work (and checking the routing metadata to prove it did), and only shipping once the evidence is in. It all runs through [omp.sh](https://omp.sh), which I picked after it topped [Composio's comparison of eight agent harnesses](https://composio.dev/content/best-ai-agent-harnesses), across Claude, GPT, DeepSeek and Kimi. The full story is on [sekmun.com](https://sekmun.com).
 
 [LinkedIn](https://www.linkedin.com/in/sekmun/) · [sekmun.com](https://sekmun.com)
 

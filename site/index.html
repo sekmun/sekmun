@@ -131,7 +131,9 @@
 
       <h3>Delivery is measured against contracts</h3>
       <p>I keep story points and model turns in separate books. Points measure the backlog scope that was agreed and accepted; turns measure how much talking, digging and reviewing the models did. Stories get points and epics don't, and scope growth is tracked apart from completed work. The points are my own complexity measure, so they aren't meant to be compared with another team's velocity, and they don't convert into engineer-hours.</p>
-      <p>Each agent works in its own Git worktree against a throwaway database. Every repository has its own checks: formatting, types, behavioural tests, schema compatibility and smoke tests against a real running system. Here's what a recent backend change had to get through.</p>
+      <p>Each agent works in its own Git worktree against a throwaway database. Every repository has its own checks: formatting, types, behavioural tests, schema compatibility and smoke tests against a real running system.</p>
+      <p>Unit tests are what let me trust code I didn't type. Coverage is reported on every build and shown as a badge at the top of each repository, so it's the first thing anyone sees. The Laravel core sits at 80.71%, and the Python services at 95.39%. I don't chase 100%, but if agents are writing the code, the tests are how I know it does what the contract says, and coverage tells me where nobody has checked yet.</p>
+      <p>Here's what a recent backend change had to get through.</p>
       <table class="record">
         <caption>Verification record for a recent backend change</caption>
         <thead><tr><th scope="col">Check</th><th scope="col">Recorded result</th></tr></thead>
