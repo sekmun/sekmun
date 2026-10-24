@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Sek-Mun Wong, staff AI engineer</title>
-<meta name="description" content="Agentic loop engineering: one engineer, 744 story points against a 260-point forecast in a single sprint. 45 years of shipping software.">
-<meta property="og:title" content="Sek-Mun Wong, staff AI engineer">
-<meta property="og:description" content="744 story points against a 260-point forecast, in one sprint, with an agent loop.">
+<title>Sek-Mun Wong, loop engineering</title>
+<meta name="description" content="Loop engineering, with receipts: planning, specification, multi-model builds, test coverage, infrastructure as code and edge architecture, run by AI agents and held to engineering discipline.">
+<meta property="og:title" content="Sek-Mun Wong, loop engineering">
+<meta property="og:description" content="Loop engineering is still engineering. Here are the receipts.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700;800&display=swap" rel="stylesheet">
@@ -85,55 +85,122 @@
     .chart img { min-width: 0; }
     footer a::after { content: " (" attr(href) ")"; }
   }
+
+  .lede { font-size: 1.2rem; line-height: 1.55; max-width: 38rem; margin: 0 0 2.5rem; }
+
+  ol.stages { list-style: none; counter-reset: s; padding: 0; margin: 1.5rem 0 2.5rem; max-width: 44rem; }
+  ol.stages li { counter-increment: s; display: grid; grid-template-columns: 2.75rem 1fr; padding: 1rem 0; border-top: 1px solid var(--rule); }
+  ol.stages li::before { content: counter(s); font-weight: 800; font-size: 1.35rem; line-height: 1.35; color: var(--mute); }
+  ol.stages li.now::before { color: var(--heat); }
+  ol.stages strong { display: block; font-weight: 700; }
+  ol.stages li.now strong::after { content: "  where I am now"; font-weight: 500; color: var(--heat); font-size: .9375rem; }
+
+  .loopmap { overflow-x: auto; margin: 1.75rem 0 1rem; }
+  .loopmap svg { display: block; width: 100%; min-width: 40rem; height: auto; }
+  .loopmap .box { fill: var(--paper); stroke: var(--ink); stroke-width: 1.2; transition: fill .15s; }
+  .loopmap a:hover .box, .loopmap a:focus .box { fill: var(--heat-soft); }
+  .loopmap a:focus { outline: none; }
+  .loopmap a:focus-visible .box { stroke: var(--heat); stroke-width: 3; }
+  .loopmap .wire { fill: none; stroke: var(--mute); stroke-width: 1.4; }
+  .loopmap .head { fill: var(--mute); }
+  .loopmap text { fill: var(--ink); font: 700 17px "Schibsted Grotesk", system-ui, sans-serif; }
+  .loopmap text.sub { fill: var(--mute); font-size: 13px; font-weight: 400; }
+
+  .study h3 { scroll-margin-top: 1.5rem; }
+  .study h3 small { display: block; font-size: .9375rem; font-weight: 500; color: var(--mute); letter-spacing: 0; margin-top: .15rem; }
+
+  table.ledger { border-collapse: collapse; width: 100%; max-width: 50rem; margin: 1.5rem 0 0; font-variant-numeric: tabular-nums; }
+  table.ledger th, table.ledger td { text-align: left; vertical-align: baseline; padding: .6rem 1.25rem .6rem 0; border-bottom: 1px dotted var(--mute); }
+  table.ledger tbody th[colspan] { padding-top: 2rem; font-size: 1.05rem; font-weight: 700; border-bottom: 1px solid var(--ink); }
+  table.ledger thead th { font-weight: 500; color: var(--mute); font-size: .9375rem; border-bottom: 0; padding-bottom: 0; }
+  table.ledger td:first-child { font-weight: 400; }
+  table.ledger td.fig { font-weight: 800; white-space: nowrap; }
+  table.ledger td.src { color: var(--mute); font-size: .9375rem; padding-right: 0; }
+  @media (max-width: 40rem) {
+    table.ledger thead { display: none; }
+    table.ledger tr { display: grid; grid-template-columns: 1fr auto; column-gap: .9rem; border-bottom: 1px dotted var(--mute); padding: .5rem 0; }
+    table.ledger td { border: 0; padding: .1rem 0; }
+    table.ledger td.src { grid-column: 1 / -1; }
+    table.ledger tbody tr:first-child { display: block; border-bottom: 0; padding-bottom: 0; }
+    table.ledger tbody th[colspan] { display: block; }
+  }
 </style>
 </head>
 <body>
 <main>
   <header>
     <p class="name">Sek-Mun Wong, Sydney</p>
-    <h1>One engineer, an agent loop, and a backlog that keeps running out.</h1>
+    <h1>Loop engineering is still engineering. Here are the receipts.</h1>
+    <p class="lede">I build production software with AI agents running in a loop: they plan, specify, build, verify, ship and run it, and the models do most of the typing. None of it is vibe coding. The tools are new; the principles are old. What I've been working out this year is how to wrap proper engineering discipline around the latest harnesses and models, so the loop can run on its own and still be trusted with production.</p>
     <figure class="chart">
       <img src="/assets/inflection.svg" width="900" height="243"
            alt="Twelve months of GitHub contributions: near-empty for six months, then ramping from mid-year to a September peak during sprint 57.">
-      <figcaption>My GitHub contributions over the last year, refreshed nightly.</figcaption>
+      <figcaption>My GitHub contributions over the last year, refreshed nightly. The trail of the stages below.</figcaption>
     </figure>
   </header>
 
-  <section aria-labelledby="sprint">
-    <h2 id="sprint">The sprint: 744 points against a 260-point forecast</h2>
+  <section aria-labelledby="stage">
+    <h2 id="stage">Where I am with it</h2>
     <div class="prose">
-      <p>Sprint 57 was planned at 260 points. The loop closed 744. Scope was written and fed in while the sprint ran, growing from 260 to 799 points, and work kept landing over both weekends.</p>
-      <p>The loop was already running. What changed on 9 September was cost. DeepSeek V4.1 Flash went live, tokens became cheap enough to leave the loop running unattended, and the 5-hour usage windows stopped dictating when work could happen. The three busiest days of my year followed.</p>
+      <p>Loop engineering comes in stages, and each one moves the bottleneck somewhere new. Most of the skill is noticing where it went.</p>
     </div>
+    <ol class="stages">
+      <li><div><strong>Assisted</strong>A model helps and I drive every step. The constraint is me.</div></li>
+      <li><div><strong>Looped</strong>Agents implement inside gates I design: contracts go in, evidence comes out. The constraint becomes the token budget, and the 5-hour usage windows that decide when work can happen.</div></li>
+      <li><div><strong>Unattended</strong>On 9 September DeepSeek V4.1 Flash went live, and tokens became cheap enough to leave loops running overnight and through weekends. Sprint 57 was already under way. It finished at 744 points against a 260-point forecast.</div></li>
+      <li class="now"><div><strong>Specification-bound</strong>Recent sprints end with the backlog empty. The constraint has moved upstream, to writing contracts good enough for a loop to execute without me.</div></li>
+    </ol>
     <figure class="chart">
       <img src="/assets/sprint.svg" width="900" height="450"
            alt="Burnup chart for sprint 57, 31 August to 13 September 2026. Completed points climb from 245 to 744 against a forecast line that ends at 260. Scope grows to 799. A marker on 9 September shows DeepSeek V4.1 Flash going live. The busiest days in GitHub fall on 11 to 13 September, matching the steepest part of the burnup.">
-      <figcaption>Points from ClickUp, contributions from GitHub, plotted on the same days. Two systems that don't know about each other agree on when the work happened.</figcaption>
+      <figcaption>Sprint 57. Points from ClickUp, contributions from GitHub, plotted on the same days. Two systems that don't know about each other agree on when the work happened.</figcaption>
     </figure>
-    <p class="finding">First the constraint was token budget. Remove it, and recent sprints have finished with the backlog empty. The bottleneck is now specification.</p>
   </section>
 
-  <section aria-labelledby="practice">
-    <h2 id="practice">Production engineering, with agents in the loop</h2>
+  <section aria-labelledby="loop">
+    <h2 id="loop">The loop, stage by stage</h2>
+    <div class="prose">
+      <p>Every stage of the loop is a discipline I've practised for a long time, rebuilt so that agents can work inside it. Speed is the side effect. The craft is in making each stage hold when nobody is watching.</p>
+    </div>
+    <figure class="loopmap">
+<svg viewBox="0 0 900 170" role="img" aria-labelledby="loop-t loop-d">
+<title id="loop-t">The loop</title>
+<desc id="loop-d">Six stages in sequence: plan, specify, build, verify, ship and run. What running teaches feeds back into planning.</desc>
+<a href="#plan"><rect class="box" x="8" y="20" width="124" height="64" rx="8"/><text x="70" y="48" text-anchor="middle">Plan</text><text class="sub" x="70" y="67" text-anchor="middle">scrum, BMAD</text></a>
+<path class="wire" d="M135 52.0H151"/><path class="head" d="M150 47.0L158 52.0L150 57.0z"/>
+<a href="#specify"><rect class="box" x="160" y="20" width="124" height="64" rx="8"/><text x="222" y="48" text-anchor="middle">Specify</text><text class="sub" x="222" y="67" text-anchor="middle">contracts</text></a>
+<path class="wire" d="M287 52.0H303"/><path class="head" d="M302 47.0L310 52.0L302 57.0z"/>
+<a href="#build"><rect class="box" x="312" y="20" width="124" height="64" rx="8"/><text x="374" y="48" text-anchor="middle">Build</text><text class="sub" x="374" y="67" text-anchor="middle">multi-model</text></a>
+<path class="wire" d="M439 52.0H455"/><path class="head" d="M454 47.0L462 52.0L454 57.0z"/>
+<a href="#verify"><rect class="box" x="464" y="20" width="124" height="64" rx="8"/><text x="526" y="48" text-anchor="middle">Verify</text><text class="sub" x="526" y="67" text-anchor="middle">tests, review</text></a>
+<path class="wire" d="M591 52.0H607"/><path class="head" d="M606 47.0L614 52.0L606 57.0z"/>
+<a href="#ship"><rect class="box" x="616" y="20" width="124" height="64" rx="8"/><text x="678" y="48" text-anchor="middle">Ship</text><text class="sub" x="678" y="67" text-anchor="middle">IaC, Actions</text></a>
+<path class="wire" d="M743 52.0H759"/><path class="head" d="M758 47.0L766 52.0L758 57.0z"/>
+<a href="#run"><rect class="box" x="768" y="20" width="124" height="64" rx="8"/><text x="830" y="48" text-anchor="middle">Run</text><text class="sub" x="830" y="67" text-anchor="middle">edge, telemetry</text></a>
+<path class="wire" d="M830 87V124Q830 136 818 136H82Q70 136 70 124V95"/><path class="head" d="M65 96L70 88L75 96z"/>
+<text class="sub" x="450" y="156" text-anchor="middle">What running teaches goes back into the backlog</text>
+</svg>
+</figure>
     <div class="study">
-      <p>The sprint chart shows how much got done. This is the part I care about more: how I make software written by agents safe to ship. I deliver production work across TypeScript, Python, PHP and Vue with agents doing most of the implementation, and whatever leverage I get comes from the engineering around the models. That means clear contracts, isolated execution, independent review, and release gates that ask for evidence.</p>
 
-      <h3>Specifications are the control plane</h3>
-      <p>Everything starts with the specification, because it's the main thing steering the agents. Before work begins, I turn a product decision into a contract: the invariants that must hold, how state moves, who owns which data, what happens when things fail, and what we're deliberately not doing.</p>
-      <p>When a change crosses services, it becomes a set of linked tickets, one per repository, each with its own branch and pull request. Schema ownership, and how producers and consumers stay compatible, get settled before either side touches code. Accepted time windows, timezones and rule versions are stored as facts when they're decided, so nobody has to reconstruct them later from whatever the settings happen to say.</p>
-      <p>I use BMAD to draft specifications and to argue with them, but a generated plan never outranks the code that has actually shipped or what's on the live tracker. The best specs are honest about three things: what already exists, what's missing, and what still needs a person to decide.</p>
+      <h3 id="plan">Plan <small>Scrum, delivery management and BMAD</small></h3>
+      <p>Running scrum for a team of agents is still running scrum. Work is planned in two-week sprints on a ClickUp board, stories get points and epics don't, and scope that arrives mid-sprint is tracked apart from the work that's done, so a sprint that grows from 260 to 799 points is visible as exactly that.</p>
+      <p>I keep story points and model turns in separate books. Points measure the scope that was agreed and accepted; turns measure how hard the models worked. The points are my own complexity measure, so they aren't a comparison with anyone else's velocity, and they don't convert into engineer-hours.</p>
+      <p>I use BMAD to draft plans and to argue with them, but a generated plan never outranks the code that has actually shipped or what's on the live tracker. A good plan is honest about three things: what already exists, what's missing, and what still needs a person to decide.</p>
 
-      <h3>Multiple models, with verifiable independence</h3>
-      <p>Everything runs through <a href="https://omp.sh">omp.sh</a>, which lets me choose models by role instead of building around a single vendor. Recently that has meant Claude Opus 5, GPT-6.1-Sol and DeepSeek's Flash and Pro models on implementation, with Kimi K2.7-Code, through Kilo, as the independent reviewer. The rule is simple: the reviewer comes from a different model family to the author.</p>
-      <p>I chose omp.sh on evidence. <a href="https://composio.dev/content/best-ai-agent-harnesses">Composio's August 2026 harness comparison</a> ran the same model, Kimi K3, through eight harnesses, including Claude Code, Codex and OpenCode, on 25 real business-app tasks. Each result was scored by checking the final state of the apps, so a confident answer alone couldn't pass. Oh My Pi, the project behind omp.sh, completed 22 of the 25, the best of the eight, at an estimated 52 US cents per successful task. Each task ran once, so it's a signal rather than a verdict, but it's the kind of evidence I want before building a workflow on a tool.</p>
-      <p>That rule is only worth something if you can check it. Asking for a model by name doesn't guarantee you got it, and a model telling you who it is proves nothing. Providers can fall back silently, and when that happens the author ends up reviewing its own work while looking like a second opinion. So I confirm which model served each response from the routing metadata itself.</p>
-      <p>These are long-running sessions with tools, rather than one-off prompts. One orchestration archive covering 6 to 21 October holds more than 6,800 assistant messages, before counting subagents, and a recent independent code review ran to 19 turns. Those numbers measure how hard the models worked; they say nothing about features shipped or hours saved. Checkpoints and retained evidence let a session pick up after an interruption without redoing work that's already finished.</p>
+      <h3 id="specify">Specify <small>Contracts an agent can be held to</small></h3>
+      <p>The specification is the main thing steering the agents, so it gets the most care. A product decision becomes a contract: the invariants that must hold, how state moves, who owns which data, what happens when things fail, and what we're deliberately not doing.</p>
+      <p>A change that crosses services becomes a set of linked tickets, one per repository, each with its own branch and pull request. Schema ownership and producer/consumer compatibility are settled before either side touches code. Time windows, timezones and rule versions are stored as facts when they're decided, so nobody reconstructs them later from whatever the settings happen to say.</p>
 
-      <h3>Delivery is measured against contracts</h3>
-      <p>I keep story points and model turns in separate books. Points measure the backlog scope that was agreed and accepted; turns measure how much talking, digging and reviewing the models did. Stories get points and epics don't, and scope growth is tracked apart from completed work. The points are my own complexity measure, so they aren't meant to be compared with another team's velocity, and they don't convert into engineer-hours.</p>
-      <p>Each agent works in its own Git worktree against a throwaway database. Every repository has its own checks: formatting, types, behavioural tests, schema compatibility and smoke tests against a real running system.</p>
-      <p>Unit tests are what let me trust code I didn't type. Coverage is reported on every build and shown as a badge at the top of each repository, so it's the first thing anyone sees. The Laravel core sits at 80.71%, and the Python services at 95.39%. I don't chase 100%, but if agents are writing the code, the tests are how I know it does what the contract says, and coverage tells me where nobody has checked yet.</p>
-      <p>Here's what a recent backend change had to get through.</p>
+      <h3 id="build">Build <small>Multi-model, multi-language, isolated</small></h3>
+      <p>The platform spans Laravel with Octane and Vue, Python for the API and batch tiers, and TypeScript on Cloudflare Workers and Node.js. The database schema has a single owner, the Laravel migrations, and the TypeScript and Python services work from typed Drizzle and SQLAlchemy mirrors of it, so no service can quietly redefine the contract.</p>
+      <p>Each agent works in its own Git worktree against a throwaway database, so parallel agents can't trample each other and a bad run costs nothing to discard. Checkpoints and retained evidence let a session resume after an interruption without redoing finished work.</p>
+      <p>Everything runs through <a href="https://omp.sh">omp.sh</a>, and I chose it on evidence. <a href="https://composio.dev/content/best-ai-agent-harnesses">Composio's August 2026 comparison</a> ran the same model, Kimi K3, through eight harnesses, including Claude Code, Codex and OpenCode, on 25 real business-app tasks, scoring each by the final state of the apps. Oh My Pi, the project behind omp.sh, completed 22 of the 25, the best of the eight, at an estimated 52 US cents per successful task.</p>
+      <p>Models are chosen by role rather than by loyalty. Recent runs have used Claude Opus 5, GPT-6.1-Sol and DeepSeek's Flash and Pro models for implementation, and Kimi K2.7-Code, through Kilo, for independent review. DeepSeek V4.1 Flash changed the economics: once a loop is cheap enough to run unattended, it stops being a session and becomes infrastructure. One orchestration archive from 6 to 21 October holds more than 6,800 assistant messages, before counting subagents.</p>
+
+      <h3 id="verify">Verify <small>Unit coverage, front-end tests, independent review</small></h3>
+      <p>Tests are what let me trust code I didn't type. Coverage is reported on every build and badged at the top of each repository: 80.71% on the Laravel core and 95.39% on the Python services. I don't chase 100%. Coverage tells me where nobody has checked yet, and the tests tell me the code does what the contract says.</p>
+      <p>Front-end behaviour is verified in a real browser against the real application. Viewports are pinned and transitions controlled so the test can't invent layout bugs of its own, and results from local fault injection are kept clearly apart from proof against live external services. Each repository adds its own gates on top: formatting, types, schema compatibility and smoke tests against a running system. Here's what one recent backend change had to get through.</p>
       <table class="record">
         <caption>Verification record for a recent backend change</caption>
         <thead><tr><th scope="col">Check</th><th scope="col">Recorded result</th></tr></thead>
@@ -143,10 +210,14 @@
           <tr><td>SQL lifecycle smoke checks</td><td>8 cases passed</td></tr>
         </tbody>
       </table>
-      <p>I treat review findings as claims to check rather than orders to follow. A real correction gets a focused second review. Cosmetic churn doesn't get to hold up shipping, and neither does a review loop that never ends.</p>
-      <p>Browser tests run against the real application. I pin the viewport and control transitions so the test can't invent layout bugs of its own, and I keep results from local fault injection clearly apart from proof against live external services.</p>
+      <p>Review comes from a model in a different family to the author, and I check that it really was. Asking for a model by name doesn't guarantee you got it, and providers can fall back silently, which would leave the author reviewing its own work while looking like a second opinion. So I confirm which model served each response from the routing metadata. Findings are treated as claims to check, not orders: a real correction gets a focused re-review, and cosmetic churn doesn't get to hold up shipping.</p>
 
-      <h3>Edge architecture with a separate batch plane</h3>
+      <h3 id="ship">Ship <small>Infrastructure as code, GitHub Actions, gated releases</small></h3>
+      <p>The whole platform is infrastructure as code. Environments, configuration and pipelines live in the repositories alongside the application, and every build, test, release and deploy runs in GitHub Actions. That matters more with agents than without them: an agent can read, change and review the infrastructure exactly as it does the application, through the same pull requests and checks.</p>
+      <p>Merging, releasing, deploying and switching a feature on are four separate decisions. Additive schema changes go out before the services that depend on them, releases pass through UAT before production, source versions are pinned and rollback evidence is kept. Container images are promoted exactly as tested, and Workers that haven't changed aren't redeployed. A feature can be switched on as its own rolling configuration change, without rebuilding accepted code or moving existing customers onto new behaviour.</p>
+      <p>A recent acceptance test for a scheduled workflow shows why the separation matters. The business outcome is committed first, and delivery is recorded separately for each destination. In the test, one destination accepted and the external service deliberately rejected the other. The stored outcome stayed put, the interface showed a partial delivery, and the one-off job didn't create a successor. When we can't tell whether a send went through, it stays marked as uncertain; it's never reported as a success or blindly retried.</p>
+
+      <h3 id="run">Run <small>Edge architecture, telemetry, security, scale</small></h3>
       <figure class="diagram">
 <svg viewBox="0 0 760 520" role="img" aria-labelledby="arch-t arch-d">
 <title id="arch-t">Edge ingestion with a separate batch plane</title>
@@ -171,36 +242,39 @@
 </svg>
         <figcaption>Shaded components run on Cloudflare's edge: Workers, Queues and Workflows ingest; R2 holds the raw archive.</figcaption>
       </figure>
-      <p>Durable Objects decide who holds each workspace's ingestion claim, and KV caches configuration. The database schema has one owner, the Laravel migrations, and the TypeScript and Python services work from typed Drizzle and SQLAlchemy mirrors of it. No service can quietly redefine the contract on its own.</p>
-      <p>At the ingestion boundary, each event's signature is checked and a provisional deduplication claim is taken. The claim only becomes final once the event is safely on the queue, and it's released if enqueueing fails. Live processing and archiving have their own retry and dead-letter paths, so trouble with the archive can never eat into the budget for live work.</p>
-      <p>Working back through history is a separate job for a Python batch tier. It compacts the raw events in object storage into Iceberg tables partitioned by day and tenant, then shapes them into data the application can use. Reusing embeddings, caching configuration and capping cluster-labelling work keep model costs under control by design, long before a billing alert would notice.</p>
-
-      <h3>Scale is a design claim until it is measured</h3>
-      <p>I've modelled capacity for 1,000 workspaces and around 1.5 million messages a day. Those are planning numbers, and I don't present them as today's production traffic.</p>
-      <p>Performance work starts from query plans and realistic fixtures rather than hunches about which index might help. On a synthetic 200,000-row fixture, one hot lookup changed like this:</p>
-      <table class="record">
-        <thead><tr><th scope="col">Hot lookup</th><th scope="col">Before</th><th scope="col">After</th></tr></thead>
-        <tbody><tr><td>Thread-parent lookup</td><td>35.7 ms</td><td class="num">0.10 ms</td></tr></tbody>
-      </table>
-      <p>The fix was a pair of partial and expression indexes that changed the query plan. The obvious indexes didn't help on their own, because both sides of an OR had to become indexable. It's a measured fixture result, and I wouldn't quote it as a production latency guarantee.</p>
-
-      <h3>Security lives in the boundaries</h3>
-      <p>Requests are authorised per workspace, with PostgreSQL row-level security underneath, tested using a database role that can't bypass it. The privileged ingest and batch services sit behind a separately documented trust boundary, so I don't claim row-level security protects everything. Alongside that there are:</p>
-      <ul>
-        <li>raw-body HMAC verification with bounded replay windows</li>
-        <li>single-use OAuth state bound to the user</li>
-        <li>encrypted credentials kept out of normal serialisation</li>
-        <li>explicit channel-access scopes and privacy classification</li>
-        <li>audited operator sessions that expire, with revocation that's verified.</li>
-      </ul>
-      <p>One small design choice I'm fond of: access is always all, assigned or none. It's never an empty list, because an empty list is exactly the kind of value that switches filtering off by accident. The testing matters as much as the mechanism here. If your tenant-isolation tests run as a database superuser, they can't prove anything.</p>
-
-      <h3>A green pipeline is not the end of the work</h3>
-      <p>The whole platform is infrastructure as code. Environments, configuration and pipelines live in the repositories alongside the application, and every build, test, release and deploy runs in GitHub Actions. That matters more with agents than without them: an agent can read, change and review the infrastructure the same way it does the application, and every change to production goes through the same pull requests and checks.</p>
-      <p>Merging, releasing, deploying and switching a feature on are four separate decisions. Coordinated releases apply additive schema changes before the services that depend on them, go through UAT before production, pin source versions and keep evidence for rollback. API and batch container images are promoted exactly as tested, and Workers that haven't changed aren't redeployed.</p>
-      <p>After a deploy I check what's actually running: the version, its health and its configuration. A green workflow tells me the pipeline finished, which isn't the same as knowing what's live. Turning a feature on can be its own rolling configuration change, so accepted code doesn't need rebuilding and existing customers aren't moved onto new behaviour without choosing it.</p>
-      <p>A recent acceptance test for a scheduled workflow shows why this matters. The business outcome is committed first, and delivery is recorded separately for each destination. In the test, one destination accepted the delivery and the external service deliberately rejected the other. The stored outcome stayed as it was, the interface showed a partial delivery, and the one-off job didn't create a successor. When we can't tell whether a send went through, it stays marked as uncertain; it's never reported as a success or blindly retried.</p>
+      <p>Signed events land on Cloudflare's edge. Each signature is checked and a provisional deduplication claim is taken, coordinated per workspace by Durable Objects; the claim only becomes final once the event is safely queued, and it's released if queuing fails. Live processing and archiving have separate retry and dead-letter paths, so trouble with the archive never eats into the live budget. A Python batch tier compacts the raw archive in R2 into Iceberg tables partitioned by day and tenant, and reuses embeddings and caches configuration so model cost is controlled by design rather than by a billing alert.</p>
+      <p>Telemetry covers the loop as well as the product. After every deploy I check what's actually running, its version, health and applied configuration, because a green workflow only proves the pipeline finished. And every agent session is archived with the model that really served each response, so I can audit who wrote and who reviewed anything that reached production.</p>
+      <p>Security lives in the boundaries. Requests are authorised per workspace with PostgreSQL row-level security underneath, tested under a role that can't bypass it, because a tenant-isolation test running as a superuser proves nothing. The privileged ingest and batch services sit behind their own documented trust boundary. Alongside that: raw-body HMAC verification with bounded replay windows, single-use OAuth state bound to the user, encrypted credentials kept out of normal serialisation, explicit channel scopes, and audited operator sessions that expire. Access is always all, assigned or none; never an empty list that can switch filtering off by accident.</p>
+      <p>The platform is designed for 1,000 workspaces and around 1.5 million messages a day, and I treat that as a design target until production proves it. Performance work starts from query plans and realistic fixtures, not hunches. On a 200,000-row fixture, partial and expression indexes took one hot lookup from 35.7 ms to 0.10 ms, once both sides of an OR had been made indexable.</p>
     </div>
+  </section>
+
+  <section aria-labelledby="receipts">
+    <h2 id="receipts">The receipts</h2>
+    <div class="prose"><p>Every figure on this page, with where it comes from.</p></div>
+    <table class="ledger">
+      <thead><tr><th scope="col">What</th><th scope="col">Figure</th><th scope="col">Source</th></tr></thead>
+      <tbody>
+        <tr><th colspan="3" scope="colgroup">Delivery</th></tr>
+        <tr><td>Sprint 57, completed against forecast</td><td class="fig">744 / 260 pts</td><td class="src">ClickUp burnup</td></tr>
+        <tr><td>Sprint 57, scope added while running</td><td class="fig">260 → 799 pts</td><td class="src">ClickUp burnup</td></tr>
+        <tr><td>Busiest day of the year</td><td class="fig">142 contributions</td><td class="src">GitHub, 13 Sep 2026</td></tr>
+      </tbody>
+      <tbody>
+        <tr><th colspan="3" scope="colgroup">Quality</th></tr>
+        <tr><td>Unit-test coverage, Laravel core</td><td class="fig">80.71%</td><td class="src">CI coverage badge</td></tr>
+        <tr><td>Unit-test coverage, Python services</td><td class="fig">95.39%</td><td class="src">CI coverage badge</td></tr>
+        <tr><td>Real-Postgres regression suite</td><td class="fig">1,726 passed</td><td class="src">Verification record, 7 disclosed skips</td></tr>
+        <tr><td>Schema preflight and SQL lifecycle checks</td><td class="fig">20 + 8 passed</td><td class="src">Verification record</td></tr>
+        <tr><td>Hot lookup on a 200,000-row fixture</td><td class="fig">35.7 → 0.10 ms</td><td class="src">Recorded benchmark</td></tr>
+      </tbody>
+      <tbody>
+        <tr><th colspan="3" scope="colgroup">Harness and models</th></tr>
+        <tr><td>Oh My Pi, tasks passed in a harness comparison</td><td class="fig">22 / 25, 1st of 8</td><td class="src"><a href="https://composio.dev/content/best-ai-agent-harnesses">Composio, Aug 2026</a></td></tr>
+        <tr><td>Assistant messages in one archive, 6–21 Oct</td><td class="fig">6,800+</td><td class="src">omp.sh session archive</td></tr>
+        <tr><td>Unattended loops became affordable</td><td class="fig">9 Sep 2026</td><td class="src">DeepSeek V4.1 Flash release</td></tr>
+      </tbody>
+    </table>
     <p class="finding">The agents do the implementation. I'm accountable for the contracts, the architecture, the evidence, and the call to ship.</p>
   </section>
 

@@ -1,14 +1,23 @@
 ### Sek-Mun Wong
 
-One engineer, an agent loop, and a backlog that keeps running out.
+**Loop engineering is still engineering. Here are the receipts.**
+
+I build production software with AI agents running in a loop: plan, specify, build, verify, ship, run. The models do most of the typing. None of it is vibe coding; it's old engineering discipline wrapped around the latest harnesses and models, so the loop can run on its own and still be trusted with production.
 
 <a href="https://sekmun.com"><img src="site/assets/inflection.svg" width="900" alt="Twelve months of GitHub contributions: near-empty for six months, then ramping from mid-year to a September peak during sprint 57."></a>
 
-**Sprint 57 was forecast at 260 points. The loop closed 744.** Scope grew from 260 to 799 while it ran, and work kept landing over both weekends. What changed on 9 September was cost: DeepSeek V4.1 Flash went live, tokens got cheap enough to leave the loop running unattended, and the 5-hour usage windows stopped deciding when work happened.
+Each stage of loop engineering moves the bottleneck. Assisted, the constraint is me. Looped, it's the token budget and the 5-hour usage windows. On 9 September DeepSeek V4.1 Flash made unattended loops affordable, and sprint 57 finished at **744 points against a 260-point forecast**. Now sprints end with the backlog empty, and the constraint is writing specifications good enough for a loop to execute.
 
 <a href="https://sekmun.com"><img src="site/assets/sprint.svg" width="900" alt="Burnup for sprint 57: 744 points completed against a 260-point forecast, with GitHub contributions for the same days underneath."></a>
 
-Agents do most of the implementation. My job is everything around them: writing specifications precise enough to act as contracts, giving each agent its own worktree and a throwaway database, holding unit-test coverage at 80.71% on the Laravel core and 95.39% on the Python services, having a model from a different family review the work (and checking the routing metadata to prove it did), and only shipping once the evidence is in. The platform is infrastructure as code, with all CI/CD in GitHub Actions. It all runs through [omp.sh](https://omp.sh), which I picked after it topped [Composio's comparison of eight agent harnesses](https://composio.dev/content/best-ai-agent-harnesses), across Claude, GPT, DeepSeek and Kimi. The full story is on [sekmun.com](https://sekmun.com).
+**Plan:** two-week scrum sprints in ClickUp, BMAD for drafting and challenging plans, points and model turns kept in separate ledgers.  
+**Specify:** contracts with invariants, failure behaviour and non-goals; one linked ticket per repository.  
+**Build:** Laravel/Vue, Python and TypeScript on Workers and Node.js; an isolated worktree and throwaway database per agent; models chosen by role through [omp.sh](https://omp.sh), which topped [Composio's comparison of eight harnesses](https://composio.dev/content/best-ai-agent-harnesses).  
+**Verify:** unit coverage of 80.71% (Laravel core) and 95.39% (Python services), browser tests against the real app, 1,726 real-Postgres regression tests, and review by a different model family, verified from routing metadata.  
+**Ship:** infrastructure as code, all CI/CD in GitHub Actions, with merge, release, deploy and activation kept as separate decisions.  
+**Run:** Cloudflare Workers, Queues, Durable Objects and R2 at the edge, a Python batch plane, row-level security, and telemetry on the loop as well as the product.
+
+The full write-up is at [sekmun.com](https://sekmun.com).
 
 [LinkedIn](https://www.linkedin.com/in/sekmun/) · [sekmun.com](https://sekmun.com)
 
