@@ -1,12 +1,12 @@
 ### Sek-Mun Wong
 
-**Loop engineering is still engineering. Here are the receipts.**
+**What running agents in a loop has taught me.**
 
-I build production software with AI agents running in a loop: plan, specify, build, verify, ship, run. The models do most of the typing. None of it is vibe coding; it's old engineering discipline wrapped around the latest harnesses and models, so the loop can run on its own and still be trusted with production.
+This year I've been running a production platform with AI agents doing most of the implementation, and keeping notes on what holds up. Everything we already knew about building software still applies, only more so: clear specifications, honest tests, careful releases and good telemetry are what let a loop run without you.
 
 <a href="https://sekmun.com"><img src="site/assets/inflection.svg" width="900" alt="Twelve months of GitHub contributions: near-empty for six months, then ramping from mid-year to a September peak during sprint 57."></a>
 
-Each stage of loop engineering moves the bottleneck. Assisted, the constraint is me. Looped, it's the token budget and the 5-hour usage windows. On 9 September DeepSeek V4.1 Flash made unattended loops affordable, and sprint 57 finished at **744 points against a 260-point forecast**. Now sprints end with the backlog empty, and the constraint is writing specifications good enough for a loop to execute.
+Each stage moves the bottleneck, and the useful question is always where it went. Assisted, the constraint is me. Looped, it's the token budget and the 5-hour usage windows. On 9 September DeepSeek V4.1 Flash made unattended loops affordable, and sprint 57 finished at **744 points against a 260-point forecast**. Now sprints end with the backlog empty, and the constraint is writing specifications good enough for a loop to execute.
 
 <a href="https://sekmun.com"><img src="site/assets/sprint.svg" width="900" alt="Burnup for sprint 57: 744 points completed against a 260-point forecast, with GitHub contributions for the same days underneath."></a>
 
@@ -17,7 +17,7 @@ Each stage of loop engineering moves the bottleneck. Assisted, the constraint is
 **Ship:** infrastructure as code, all CI/CD in GitHub Actions, with merge, release, deploy and activation kept as separate decisions.  
 **Run:** Cloudflare Workers, Queues, Durable Objects and R2 at the edge, a Python batch plane, row-level security, and telemetry on the loop as well as the product.
 
-The full write-up is at [sekmun.com](https://sekmun.com).
+The full notes, with the evidence for each claim, are at [sekmun.com](https://sekmun.com).
 
 [LinkedIn](https://www.linkedin.com/in/sekmun/) · [sekmun.com](https://sekmun.com)
 

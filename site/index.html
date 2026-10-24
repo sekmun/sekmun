@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Sek-Mun Wong, loop engineering</title>
+<title>Sek-Mun Wong, on engineering with agent loops</title>
 <meta name="description" content="Loop engineering, with receipts: planning, specification, multi-model builds, test coverage, infrastructure as code and edge architecture, run by AI agents and held to engineering discipline.">
-<meta property="og:title" content="Sek-Mun Wong, loop engineering">
-<meta property="og:description" content="Loop engineering is still engineering. Here are the receipts.">
+<meta property="og:title" content="Sek-Mun Wong, on engineering with agent loops">
+<meta property="og:description" content="What running a production platform with agents in the loop has taught me, stage by stage, with the evidence.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700;800&display=swap" rel="stylesheet">
@@ -130,19 +130,19 @@
 <main>
   <header>
     <p class="name">Sek-Mun Wong, Sydney</p>
-    <h1>Loop engineering is still engineering. Here are the receipts.</h1>
-    <p class="lede">I build production software with AI agents running in a loop: they plan, specify, build, verify, ship and run it, and the models do most of the typing. None of it is vibe coding. The tools are new; the principles are old. What I've been working out this year is how to wrap proper engineering discipline around the latest harnesses and models, so the loop can run on its own and still be trusted with production.</p>
+    <h1>What running agents in a loop has taught me</h1>
+    <p class="lede">This year I've been running a production platform with AI agents doing most of the implementation, and keeping notes on what holds up. The short version: everything we already knew about building software still applies, only more so. Clear specifications, honest tests, careful releases and good telemetry are what let a loop run without you, and the bottleneck keeps moving in ways worth understanding. This page walks through where it has moved for me, how I've set up each stage of the loop, and the evidence behind each claim, so you can take whatever is useful.</p>
     <figure class="chart">
       <img src="/assets/inflection.svg" width="900" height="243"
            alt="Twelve months of GitHub contributions: near-empty for six months, then ramping from mid-year to a September peak during sprint 57.">
-      <figcaption>My GitHub contributions over the last year, refreshed nightly. The trail of the stages below.</figcaption>
+      <figcaption>My GitHub contributions over the last year, refreshed nightly. You can see the stages below in it.</figcaption>
     </figure>
   </header>
 
   <section aria-labelledby="stage">
     <h2 id="stage">Where I am with it</h2>
     <div class="prose">
-      <p>Loop engineering comes in stages, and each one moves the bottleneck somewhere new. Most of the skill is noticing where it went.</p>
+      <p>If you're bringing agents into your own work, expect to move through stages like these. Each one moves the bottleneck, and the most useful question at every stage is where it went.</p>
     </div>
     <ol class="stages">
       <li><div><strong>Assisted</strong>A model helps and I drive every step. The constraint is me.</div></li>
@@ -160,7 +160,7 @@
   <section aria-labelledby="loop">
     <h2 id="loop">The loop, stage by stage</h2>
     <div class="prose">
-      <p>Every stage of the loop is a discipline I've practised for a long time, rebuilt so that agents can work inside it. Speed is the side effect. The craft is in making each stage hold when nobody is watching.</p>
+      <p>None of these stages are new. They're the ones any well-run engineering team already has. What changes with agents is that each stage has to hold up when nobody is watching it. Here's how I've set each one up, and why.</p>
     </div>
     <figure class="loopmap">
 <svg viewBox="0 0 900 170" role="img" aria-labelledby="loop-t loop-d">
@@ -250,8 +250,8 @@
   </section>
 
   <section aria-labelledby="receipts">
-    <h2 id="receipts">The receipts</h2>
-    <div class="prose"><p>Every figure on this page, with where it comes from.</p></div>
+    <h2 id="receipts">Where the numbers come from</h2>
+    <div class="prose"><p>Claims about agents deserve the same scrutiny as any other engineering claim, so here is every figure on this page and its source.</p></div>
     <table class="ledger">
       <thead><tr><th scope="col">What</th><th scope="col">Figure</th><th scope="col">Source</th></tr></thead>
       <tbody>
@@ -275,7 +275,7 @@
         <tr><td>Unattended loops became affordable</td><td class="fig">9 Sep 2026</td><td class="src">DeepSeek V4.1 Flash release</td></tr>
       </tbody>
     </table>
-    <p class="finding">The agents do the implementation. I'm accountable for the contracts, the architecture, the evidence, and the call to ship.</p>
+    <p class="finding">Agents change who writes the code. They don't change who is accountable for it.</p>
   </section>
 
   <footer>
