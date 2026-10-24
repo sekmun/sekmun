@@ -125,6 +125,15 @@
     table.ledger tbody th[colspan] { display: block; }
   }
 
+  .growth { margin: 1.5rem 0 1.75rem; max-width: 40rem; }
+  .growth svg { display: block; width: 100%; height: auto; }
+  .growth .grid { stroke: var(--rule); stroke-width: 1; }
+  .growth .axis { fill: var(--mute); font: 400 12px "Schibsted Grotesk", system-ui, sans-serif; }
+  .growth .bar { fill: var(--heat-soft); }
+  .growth .bar.hot { fill: var(--heat); }
+  .growth .val { fill: var(--ink); font: 800 18px "Schibsted Grotesk", system-ui, sans-serif; }
+  .growth .val.hotv { fill: var(--heat); }
+  .growth .lab { fill: var(--ink); font: 500 14px "Schibsted Grotesk", system-ui, sans-serif; }
   .invite { margin-top: 3rem; max-width: 38rem; font-size: 1.125rem; }
   .study p.lead { font-weight: 500; }
 </style>
@@ -160,7 +169,32 @@
     </figure>
     <div class="prose">
       <p>Sprint 57 was planned at 260 points and closed 744, with scope growing to 799 as fast as it could be specified. The total isn't the point; story points are a private measure, and nobody should compare them across teams. Look at the shape instead. The steepest part of the curve starts just after the cost dropped, and GitHub, which knows nothing about my sprints, lights up on exactly the same days.</p>
-      <p>The wider market has noticed the same shift. On OpenRouter, <a href="https://openrouter.ai/data/newsletter/the-token-state-of-play">open-weight models have carried most of the token volume since April</a>, peaking at 79% in early July and staying above 62% since. The money hasn't followed yet: closed frontier models still took 73% of spend in mid-September. That gap is the big question hanging over the frontier labs. If the work moves to open models, how long can premium pricing hold? Investors are starting to ask too. This week <a href="https://247wallst.com/investing/2026/10/23/openai-just-cut-its-valuation-target-by-150-billion/">OpenAI cut the valuation it's asking new investors for by $150 billion</a>, to $1.25 trillion, after pushback, and some of Anthropic's prospective investors are reportedly pressing its ask down from $2 trillion towards $1.5 trillion ahead of its listing.</p>
+      <p>The wider market is feeling the same shift. On OpenRouter, <a href="https://openrouter.ai/data/newsletter/the-token-state-of-play">open-weight models have carried most of the token volume since April</a>, peaking at 79% in early July and staying above 62% since. The money hasn't followed yet: closed frontier models still took 73% of spend in mid-September. That gap is the big question hanging over the frontier labs. If the work keeps moving to open models, how long can premium pricing hold?</p>
+      <p>Their own growth curve is starting to answer. Annualised figures hide it, so look at it quarter by quarter instead. On Epoch AI's numbers, OpenAI and Anthropic's combined run-rate revenue grew about 47% a quarter through 2025, surged to about 83% in the first quarter of 2026, then fell back to roughly 62% a quarter from April to July. The doubling time stretched from under three and a half months to over four.</p>
+    </div>
+    <figure class="growth">
+      <svg viewBox="0 0 640 250" role="img" aria-labelledby="g-t g-d">
+<title id="g-t">Frontier lab revenue growth per quarter</title>
+<desc id="g-d">Combined OpenAI and Anthropic run-rate revenue grew about 47% a quarter on average through 2025, about 83% in the first quarter of 2026, and about 62% a quarter from April to July 2026.</desc>
+<line class="grid" x1="40" x2="630" y1="200" y2="200"/><text class="axis" x="32" y="204" text-anchor="end">0%</text>
+<line class="grid" x1="40" x2="630" y1="157.5" y2="157.5"/><text class="axis" x="32" y="161.5" text-anchor="end">25%</text>
+<line class="grid" x1="40" x2="630" y1="115" y2="115"/><text class="axis" x="32" y="119" text-anchor="end">50%</text>
+<line class="grid" x1="40" x2="630" y1="72.5" y2="72.5"/><text class="axis" x="32" y="76.5" text-anchor="end">75%</text>
+<line class="grid" x1="40" x2="630" y1="30" y2="30"/><text class="axis" x="32" y="34" text-anchor="end">100%</text>
+<rect class="bar" x="80" y="120.1" width="140" height="79.9" rx="3"/>
+<text class="val" x="150.0" y="112.1" text-anchor="middle">47%</text>
+<text class="lab" x="150.0" y="222" text-anchor="middle">2025, average</text>
+<rect class="bar" x="280" y="58.9" width="140" height="141.1" rx="3"/>
+<text class="val" x="350.0" y="50.9" text-anchor="middle">83%</text>
+<text class="lab" x="350.0" y="222" text-anchor="middle">Q1 2026</text>
+<rect class="bar hot" x="480" y="94.6" width="140" height="105.4" rx="3"/>
+<text class="val hotv" x="550.0" y="86.6" text-anchor="middle">62%</text>
+<text class="lab" x="550.0" y="222" text-anchor="middle">Apr–Jul 2026</text>
+</svg>
+      <figcaption>Combined OpenAI and Anthropic run-rate revenue, growth per quarter. Derived from <a href="https://epoch.ai/gradient-updates/an-update-on-ais-most-important-number">Epoch AI's figures</a>: $6.5B at the start of 2025, $30B at the start of 2026, about $55B at the end of March and $105B by the end of July. The last bar converts the four-month change to a quarterly rate.</figcaption>
+    </figure>
+    <div class="prose">
+      <p>That's still remarkable growth, but in this industry the gradient is what gets priced, and the gradient has turned. Valuations were set on the steep part of the curve. This week <a href="https://247wallst.com/investing/2026/10/23/openai-just-cut-its-valuation-target-by-150-billion/">OpenAI cut the valuation it's asking new investors for by $150 billion</a>, to $1.25 trillion, after pushback, and some of Anthropic's prospective investors are pressing its $2 trillion ask towards $1.5 trillion: a 25% haircut before it has even listed. Slowing growth at the frontier, with the token volume drifting to cheaper open models, is the clearest explanation I can see.</p>
     </div>
   </section>
 
@@ -302,6 +336,8 @@
         <tr><td>Unattended loops became affordable</td><td class="fig">9 Sep 2026</td><td class="src">DeepSeek V4.1 Flash release</td></tr>
         <tr><td>Open-weight share of OpenRouter tokens since July</td><td class="fig">62%+, peak 79%</td><td class="src"><a href="https://openrouter.ai/data/newsletter/the-token-state-of-play">OpenRouter, Sep 2026</a></td></tr>
         <tr><td>Closed frontier models' share of OpenRouter spend</td><td class="fig">73%</td><td class="src"><a href="https://openrouter.ai/data/newsletter/the-token-state-of-play">OpenRouter, mid-Sep 2026</a></td></tr>
+        <tr><td>OpenAI and Anthropic revenue growth per quarter</td><td class="fig">83% → 62%</td><td class="src"><a href="https://epoch.ai/gradient-updates/an-update-on-ais-most-important-number">Derived from Epoch AI, Aug 2026</a></td></tr>
+        <tr><td>Anthropic valuation ask, as some investors press it</td><td class="fig">$2T → $1.5T</td><td class="src"><a href="https://247wallst.com/investing/2026/10/23/openai-just-cut-its-valuation-target-by-150-billion/">24/7 Wall St., Oct 2026</a></td></tr>
       </tbody>
     </table>
     <p class="finding">Agents change who writes the code. They don't change who is accountable for it.</p>
