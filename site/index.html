@@ -160,6 +160,7 @@
     </figure>
     <div class="prose">
       <p>Sprint 57 was planned at 260 points and closed 744, with scope growing to 799 as fast as it could be specified. The total isn't the point; story points are a private measure, and nobody should compare them across teams. Look at the shape instead. The steepest part of the curve starts just after the cost dropped, and GitHub, which knows nothing about my sprints, lights up on exactly the same days.</p>
+      <p>The wider market has noticed the same shift. On OpenRouter, <a href="https://openrouter.ai/data/newsletter/the-token-state-of-play">open-weight models have carried most of the token volume since April</a>, peaking at 79% in early July and staying above 62% since. The money hasn't followed yet: closed frontier models still took 73% of spend in mid-September. That gap is the big question hanging over the frontier labs. If the work moves to open models, how long can premium pricing hold? Investors are starting to ask too. This week <a href="https://247wallst.com/investing/2026/10/23/openai-just-cut-its-valuation-target-by-150-billion/">OpenAI cut the valuation it's asking new investors for by $150 billion</a>, to $1.25 trillion, after pushback, and some of Anthropic's prospective investors are reportedly pressing its ask down from $2 trillion towards $1.5 trillion ahead of its listing.</p>
     </div>
   </section>
 
@@ -218,6 +219,7 @@
       <p>Isolate everything. Each agent works in its own Git worktree against a throwaway database, so parallel agents can't trample each other and a bad run costs nothing to throw away. Checkpoints let a session pick up after an interruption without redoing finished work.</p>
       <p>Choose the harness on evidence. I use <a href="https://omp.sh">omp.sh</a>. <a href="https://composio.dev/content/best-ai-agent-harnesses">Composio's August 2026 comparison</a> ran the same model, Kimi K3, through eight harnesses, including Claude Code, Codex and OpenCode, on 25 real business-app tasks, scoring each by the final state of the apps. Oh My Pi, the project behind omp.sh, completed 22 of the 25, the best of the eight, at an estimated 52 US cents per successful task.</p>
       <p>Choose models by role, not loyalty. Recent runs have used Claude Opus 5, GPT-6.1-Sol and DeepSeek's Flash and Pro models to implement, and Kimi K2.7-Code, through Kilo, to review. Treat cost as part of the design: DeepSeek V4.1 Flash is what turned my loop from a session into infrastructure. One orchestration archive from 6 to 21 October holds more than 6,800 assistant messages, before counting subagents.</p>
+      <p>If data retention is what's holding you back from DeepSeek, you don't have to send anything to DeepSeek's own API. DeepSeek V4.1 Flash is also available on <a href="https://ollama.com/cloud">Ollama's cloud subscription</a>, and Ollama states that prompts and responses are never logged or trained on, and requires zero data retention from every provider it runs models with.</p>
       <p>A polyglot stack works fine with agents, as long as each contract has one source. The platform runs Laravel with Octane and Vue, Python for the API and batch tiers, and TypeScript on Cloudflare Workers and Node.js. The database schema is owned by the Laravel migrations, and the TypeScript and Python services work from typed Drizzle and SQLAlchemy mirrors, so no service can quietly redefine it.</p>
 
       <h3 id="verify">Verify <small>Unit coverage, front-end tests, independent review</small></h3>
@@ -294,10 +296,12 @@
         <tr><td>Hot lookup on a 200,000-row fixture</td><td class="fig">35.7 → 0.10 ms</td><td class="src">Recorded benchmark</td></tr>
       </tbody>
       <tbody>
-        <tr><th colspan="3" scope="colgroup">Harness and models</th></tr>
+        <tr><th colspan="3" scope="colgroup">Harness, models and market</th></tr>
         <tr><td>Oh My Pi, tasks passed in a harness comparison</td><td class="fig">22 / 25, 1st of 8</td><td class="src"><a href="https://composio.dev/content/best-ai-agent-harnesses">Composio, Aug 2026</a></td></tr>
         <tr><td>Assistant messages in one archive, 6–21 Oct</td><td class="fig">6,800+</td><td class="src">omp.sh session archive</td></tr>
         <tr><td>Unattended loops became affordable</td><td class="fig">9 Sep 2026</td><td class="src">DeepSeek V4.1 Flash release</td></tr>
+        <tr><td>Open-weight share of OpenRouter tokens since July</td><td class="fig">62%+, peak 79%</td><td class="src"><a href="https://openrouter.ai/data/newsletter/the-token-state-of-play">OpenRouter, Sep 2026</a></td></tr>
+        <tr><td>Closed frontier models' share of OpenRouter spend</td><td class="fig">73%</td><td class="src"><a href="https://openrouter.ai/data/newsletter/the-token-state-of-play">OpenRouter, mid-Sep 2026</a></td></tr>
       </tbody>
     </table>
     <p class="finding">Agents change who writes the code. They don't change who is accountable for it.</p>
