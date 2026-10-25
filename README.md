@@ -19,6 +19,8 @@ Three things arrived this year: models good enough to keep their code, harnesses
 
 The full notes, with the evidence for each claim, are at [sekmun.com](https://sekmun.com). I write up what I learn as I go on [Substack](https://sekmun.substack.com/).
 
+<sub>Written by AI, working from the history in my harness, my development environment and git. I directed and checked it; the opinions are mine.</sub>
+
 [Substack](https://sekmun.substack.com/) · [LinkedIn](https://www.linkedin.com/in/sekmun/) · [sekmun.com](https://sekmun.com)
 
 <!--
