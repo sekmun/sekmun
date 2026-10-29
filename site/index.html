@@ -4,9 +4,39 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sek-Mun Wong, on loop engineering</title>
-<meta name="description" content="Why loop engineering is how software gets built from here, why the time to start is now, and how to set up each stage of the loop. Notes from running one on a production platform.">
+<meta name="description" content="Notes from running an unattended agent loop on a production platform: the four stages, why now, and how to set up each part of the loop, with the evidence.">
 <meta property="og:title" content="Build the loop, not just the code">
 <meta property="og:description" content="Why loop engineering is how software gets built from here, and how to set one up. Notes from running one in production.">
+<link rel="canonical" href="https://sekmun.com/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://sekmun.com/#person",
+      "name": "Sek-Mun Wong",
+      "jobTitle": "Tech Founder & CTO",
+      "url": "https://sekmun.com/",
+      "sameAs": [
+        "https://sekmun.substack.com/",
+        "https://github.com/sekmun",
+        "https://www.linkedin.com/in/sekmun/"
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://sekmun.com/#page",
+      "url": "https://sekmun.com/",
+      "name": "Build the loop, not just the code",
+      "inLanguage": "en-AU",
+      "datePublished": "2026-10-21",
+      "dateModified": "2026-10-29",
+      "author": { "@id": "https://sekmun.com/#person" }
+    }
+  ]
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700;800&display=swap" rel="stylesheet">
@@ -43,6 +73,7 @@
   figcaption { margin-top: .75rem; color: var(--mute); font-size: .9375rem; max-width: 38rem; }
   .chart { overflow-x: auto; }
   .chart img { min-width: 40rem; }
+  .chart figcaption { position: sticky; left: 0; max-width: min(38rem, calc(100vw - 2rem)); }
 
   .finding {
     margin: 2rem 0 0; padding-left: 1.25rem; border-left: 3px solid var(--heat);
@@ -135,6 +166,41 @@
   .growth .val.hotv { fill: var(--heat); }
   .growth .lab { fill: var(--ink); font: 500 14px "Schibsted Grotesk", system-ui, sans-serif; }
   .disclosure { margin-top: 4rem; max-width: 38rem; color: var(--mute); font-size: .9375rem; }
+  .updated { margin: -.9rem 0 1.25rem; color: var(--mute); font-size: .9375rem; }
+
+  .stagemap { list-style: none; padding: 0; margin: 1.75rem 0 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.75rem; }
+  .stagemap li { position: relative; padding-top: 1rem; border-top: 3px solid var(--rule); }
+  .stagemap li:not(:last-child)::after { content: ""; position: absolute; top: -9px; right: -1.45rem; border: 7.5px solid transparent; border-left: 10px solid var(--mute); border-right: 0; }
+  .stagemap li.now { border-top-color: var(--heat); }
+  .stagemap h3 { margin: 0 0 .35rem; font-size: 1.15rem; line-height: 1.25; font-weight: 800; letter-spacing: -.01em; }
+  .stagemap p { margin: 0 0 .7rem; font-size: .975rem; line-height: 1.45; }
+  .stagemap .neck { color: var(--mute); }
+  .stagemap .neck b { display: block; color: var(--ink); font-weight: 700; }
+  .stagemap .tag { display: inline-block; margin-bottom: .45rem; font-size: .8125rem; font-weight: 700; color: var(--heat); }
+  .stagenote { margin: 1.5rem 0 0; color: var(--mute); font-size: .9375rem; max-width: 38rem; }
+  @media (max-width: 44rem) {
+    .stagemap { grid-template-columns: 1fr; gap: 0; }
+    .stagemap li { padding: 1rem 0 .4rem; border-top-width: 1px; border-left: 3px solid var(--rule); border-top: 0; padding-left: 1rem; margin-bottom: 1.1rem; }
+    .stagemap li.now { border-left-color: var(--heat); }
+    .stagemap li:not(:last-child)::after { top: auto; bottom: -1.05rem; right: auto; left: -9px; border: 7.5px solid transparent; border-top: 10px solid var(--mute); border-bottom: 0; }
+  }
+
+  .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .table-scroll table { min-width: 30rem; }
+  .table-scroll table.ledger { min-width: 0; }
+
+  details.market { margin: 2rem 0 0; max-width: 40rem; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+  details.market summary { cursor: pointer; padding: 1rem 0; font-weight: 700; list-style-position: outside; }
+  details.market summary span { font-weight: 400; color: var(--mute); }
+  details.market summary:focus-visible { outline: 3px solid var(--heat); outline-offset: 3px; }
+  details.market[open] { padding-bottom: 1rem; }
+
+  .readmore { margin-top: 2rem; max-width: 38rem; }
+  .readmore h2 { font-size: 1.1rem; margin: 0 0 .5rem; }
+  .readmore ul { margin: 0; padding-left: 1.2rem; }
+  .readmore li { margin-bottom: .35rem; }
+  .readmore li::marker { color: var(--heat); }
+  .readmore span { color: var(--mute); }
   .invite { margin-top: 3rem; max-width: 38rem; font-size: 1.125rem; }
   .study p.lead { font-weight: 500; }
 </style>
@@ -143,11 +209,12 @@
 <main>
   <header>
     <p class="name">Sek-Mun Wong, Sydney</p>
+    <p class="updated">Last updated <time datetime="2026-10-29">29 October 2026</time></p>
     <h1>Build the loop, not just the code.</h1>
     <div class="lede">
       <p>For most of my career, the expensive part of making software was people typing it. This year that stopped being true. Models now write competent code across a real stack, harnesses keep them working for hours at a time, and the cheapest of them now cost little enough to leave running overnight.</p>
-      <p>When implementation gets that cheap, the job moves. The work becomes designing the loop that code flows through: what goes in, what has to be proven before anything comes out, and who decides it ships. That's loop engineering. I think it's how most software will be built within a couple of years, and the teams who start learning it now will have a lead that's hard to close.</p>
-      <p>These are my notes from running a loop on a real production platform: why now, what to expect, and how I've set up each stage.</p>
+      <p>When implementation gets that cheap, the job moves. The work becomes designing the loop that code flows through: what goes in, what has to be proven before anything comes out, and who decides it ships. That's <a href="https://sekmun.substack.com/p/pencils-down-rethinking-a-career">loop engineering</a>. I think it's how most software will be built within a couple of years, and the teams who start learning it now will have a lead that's hard to close.</p>
+      <p>These are my notes from running a loop on a real production platform: the stages it goes through, why now, and how I've set up each part.</p>
     </div>
     <figure class="chart">
       <img src="/assets/inflection.svg" width="900" height="243"
@@ -156,12 +223,40 @@
     </figure>
   </header>
 
+  <section aria-labelledby="stage">
+    <h2 id="stage">Four stages</h2>
+    <ol class="stagemap">
+      <li>
+        <h3>Assisted</h3>
+        <p>The model helps, you drive.</p>
+        <p class="neck"><b>Bottleneck</b>Still you. Every step waits.</p>
+      </li>
+      <li>
+        <h3>Looped</h3>
+        <p>Agents implement inside gates you design.</p>
+        <p class="neck"><b>Bottleneck</b>Tokens and usage windows.</p>
+      </li>
+      <li>
+        <span class="tag">From 9 Sep 2026</span>
+        <h3>Unattended</h3>
+        <p>The loop runs overnight and through weekends.</p>
+        <p class="neck"><b>Bottleneck</b>The backlog.</p>
+      </li>
+      <li class="now">
+        <span class="tag">Where I am now</span>
+        <h3>Specification-bound</h3>
+        <p>The backlog runs dry.</p>
+        <p class="neck"><b>Bottleneck</b>Deciding precisely what to build.</p>
+      </li>
+    </ol>
+    <p class="stagenote">Mine crossed into unattended on 9 September 2026, mid-sprint 57.</p>
+    <p class="finding">Knowing where the bottleneck has moved is most of the skill.</p>
+  </section>
+
   <section aria-labelledby="why">
     <h2 id="why">Why now</h2>
     <div class="prose">
-      <p>Three things arrived this year, and together they change the economics of building software.</p>
-      <p>The models became good enough to write production code you can actually keep. The harnesses became good enough to keep those models working, with tools, sub-agents and checkpoints, instead of answering one prompt at a time. And then the cost fell. On 9 September DeepSeek V4.1 Flash went live, and the token budgets and 5-hour usage windows that had been deciding when work could happen simply stopped mattering. A loop could finally run while I slept.</p>
-      <p>Here's what that looked like.</p>
+      <p>Three things arrived this year. Models became good enough to write production code you can keep. Harnesses became good enough to keep those models working for hours, with tools, sub-agents and checkpoints. Then the cost fell. On 9 September DeepSeek V4.1 Flash went live, and the token budgets and 5-hour usage windows that had decided when work could happen stopped mattering. A loop could finally run while I slept.</p>
     </div>
     <figure class="chart">
       <img src="/assets/sprint.svg" width="900" height="450"
@@ -169,11 +264,15 @@
       <figcaption>Sprint 57. Points from ClickUp, contributions from GitHub, plotted on the same days.</figcaption>
     </figure>
     <div class="prose">
-      <p>Sprint 57 was planned at 260 points and closed 744, with scope growing to 799 as fast as it could be specified. The total isn't the point; story points are a private measure, and nobody should compare them across teams. Look at the shape instead. The steepest part of the curve starts just after the cost dropped, and GitHub, which knows nothing about my sprints, lights up on exactly the same days.</p>
-      <p>The wider market is feeling the same shift. On OpenRouter, <a href="https://openrouter.ai/data/newsletter/the-token-state-of-play">open-weight models have carried most of the token volume since April</a>, peaking at 79% in early July and staying above 62% since. The money hasn't followed yet: closed frontier models still took 73% of spend in mid-September. That gap is the big question hanging over the frontier labs. If the work keeps moving to open models, how long can premium pricing hold?</p>
-      <p>Their own growth curve is starting to answer. Annualised figures hide it, so look at it quarter by quarter instead. On Epoch AI's numbers, OpenAI and Anthropic's combined run-rate revenue grew about 47% a quarter through 2025, surged to about 83% in the first quarter of 2026, then fell back to roughly 62% a quarter from April to July. The doubling time stretched from under three and a half months to over four.</p>
+      <p>Sprint 57 was planned at 260 points and closed 744, with scope growing to 799 as fast as it could be specified. Story points are a private measure, so look at the shape rather than the total. The steepest part of the curve starts just after the cost dropped, and GitHub, which knows nothing about my sprints, lights up on the same days.</p>
+      <p>Open-weight models have carried most of the token volume on <a href="https://openrouter.ai/data/newsletter/the-token-state-of-play">OpenRouter</a> since April, and for most of the work they're now good enough at a fraction of the price. Build your loop model-agnostic from the start: when the economics shift, you want to change a model, not your whole way of working.</p>
     </div>
-    <figure class="growth">
+    <details class="market">
+      <summary>The market view <span>(my opinion)</span></summary>
+      <div class="prose">
+        <p>Closed frontier models still took 73% of OpenRouter spend in mid-September, while open weights carried most of the tokens. I don't think that gap lasts. Much of the labs' growth this year came from moving heavy users off flat subscriptions onto metered tokens (<a href="https://techcrunch.com/2025/07/28/anthropic-unveils-new-rate-limits-to-curb-claude-code-power-users/">Anthropic's weekly limits</a>, <a href="https://help.openai.com/articles/20001106">OpenAI's Codex rate card</a>), and quarter by quarter that growth is already slowing.</p>
+      </div>
+      <figure class="growth">
       <svg viewBox="0 0 640 250" role="img" aria-labelledby="g-t g-d">
 <title id="g-t">Frontier lab revenue growth per quarter</title>
 <desc id="g-d">Combined OpenAI and Anthropic run-rate revenue grew about 47% a quarter on average through 2025, about 83% in the first quarter of 2026, and about 62% a quarter from April to July 2026.</desc>
@@ -194,24 +293,10 @@
 </svg>
       <figcaption>Combined OpenAI and Anthropic run-rate revenue, growth per quarter. Derived from <a href="https://epoch.ai/gradient-updates/an-update-on-ais-most-important-number">Epoch AI's figures</a>: $6.5B at the start of 2025, $30B at the start of 2026, about $55B at the end of March and $105B by the end of July. The last bar converts the four-month change to a quarterly rate.</figcaption>
     </figure>
-    <div class="prose">
-      <p>That's still remarkable growth, but in this industry the gradient is what gets priced, and the gradient has turned. Valuations were set on the steep part of the curve. This week <a href="https://247wallst.com/investing/2026/10/23/openai-just-cut-its-valuation-target-by-150-billion/">OpenAI cut the valuation it's asking new investors for by $150 billion</a>, to $1.25 trillion, after pushback, and some of Anthropic's prospective investors are pressing its $2 trillion ask towards $1.5 trillion: a 25% haircut before it has even listed. Slowing growth at the frontier, with the token volume drifting to cheaper open models, is the clearest explanation I can see.</p>
-      <p>It helps to know where that growth came from. Last year a lot of heavy coding ran on flat subscriptions, and the heaviest users treated the $200-a-month plans as all-you-can-eat. Anthropic said as much when it <a href="https://techcrunch.com/2025/07/28/anthropic-unveils-new-rate-limits-to-curb-claude-code-power-users/">added weekly limits in July 2025</a>, citing subscribers running Claude Code &ldquo;continuously in the background, 24/7&rdquo; and others sharing and reselling accounts, and it pointed them to extra usage at API rates. OpenAI moved Codex onto a <a href="https://help.openai.com/articles/20001106">token-based rate card with purchasable credits</a> in April 2026. My read is that much of this year's growth is that shift, from flat fees to metered, overage-driven tokens.</p>
-      <p>That works while the frontier is clearly better. The pushback this year is that open-weight models have become good enough for most of the work, at a fraction of the price. I think there's a limited window in which the market will keep paying the overage tax. After that, teams will either bring inference in-house, onto their own hardware or their own cloud, or move to open weights. It's one more reason to build your loop model-agnostic from the start: when the economics shift, you want to change a model, not your whole way of working.</p>
-    </div>
-  </section>
-
-  <section aria-labelledby="stage">
-    <h2 id="stage">What to expect</h2>
-    <div class="prose">
-      <p>Nobody jumps straight to an unattended loop. In my experience it comes in stages, and each one moves the bottleneck somewhere new. Knowing where it has gone is most of the skill.</p>
-    </div>
-    <ol class="stages">
-      <li><div><strong>Assisted</strong>The model helps and you drive. It feels faster, but you're still the bottleneck, because every step waits for you.</div></li>
-      <li><div><strong>Looped</strong>Agents implement inside gates you design: contracts go in, evidence comes out. Now the limit is tokens, and budgets and usage windows decide when work can happen.</div></li>
-      <li><div><strong>Unattended</strong>Once tokens are cheap enough, the loop runs overnight and through weekends. For me that moment was 9 September, in the middle of sprint 57.</div></li>
-      <li class="now"><div><strong>Specification-bound</strong>Then the backlog runs dry. The constraint moves upstream, to the thing that was always hardest: deciding precisely what to build. I think that's where the most interesting engineering is about to be.</div></li>
-    </ol>
+      <div class="prose">
+        <p>Valuations were set on the steeper part of that curve, and investors are pushing back: <a href="https://247wallst.com/investing/2026/10/23/openai-just-cut-its-valuation-target-by-150-billion/">OpenAI cut its asking valuation by $150 billion</a> this month, and some of Anthropic's prospective investors are pressing its $2 trillion ask towards $1.5 trillion. I think the market will pay the overage tax for a limited time before inference moves in-house or to open weights.</p>
+      </div>
+    </details>
   </section>
 
   <section aria-labelledby="loop">
@@ -263,7 +348,7 @@
       <p class="lead">If you take one thing from this page, take this: tests are what let you trust code you didn't write.</p>
       <p>Coverage is reported on every build and badged on each repository: 80.71% on the Laravel core and 95.39% on the Python services. I don't chase 100%. Coverage shows me where nobody has looked yet, and the tests show the code honours its contract.</p>
       <p>Front-end behaviour is checked in a real browser against the real application, with viewports pinned and transitions controlled so the test can't invent layout bugs of its own. Results from local fault injection are kept apart from proof against live external services. Each repository adds formatting, types, schema compatibility and smoke tests on top. Here's what one recent backend change had to clear.</p>
-      <table class="record">
+      <div class="table-scroll"><table class="record">
         <caption>Verification record for a recent backend change</caption>
         <thead><tr><th scope="col">Check</th><th scope="col">Recorded result</th></tr></thead>
         <tbody>
@@ -271,7 +356,7 @@
           <tr><td>Schema preflight</td><td>20 cases passed</td></tr>
           <tr><td>SQL lifecycle smoke checks</td><td>8 cases passed</td></tr>
         </tbody>
-      </table>
+      </table></div>
       <p>Review needs independence you can verify. The reviewer comes from a different model family to the author, and I check the routing metadata to confirm which model actually answered, because providers can fall back silently and leave a model marking its own homework. Treat findings as claims to check, not orders: a real correction earns a focused re-review, and cosmetic churn doesn't get to block a release.</p>
 
       <h3 id="ship">Ship <small>Infrastructure as code, GitHub Actions, gated releases</small></h3>
@@ -316,7 +401,7 @@
   <section aria-labelledby="receipts">
     <h2 id="receipts">Where the numbers come from</h2>
     <div class="prose"><p>Claims about agents deserve the same scrutiny as any other engineering claim, so here is every figure on this page and its source.</p></div>
-    <table class="ledger">
+    <div class="table-scroll"><table class="ledger">
       <thead><tr><th scope="col">What</th><th scope="col">Figure</th><th scope="col">Source</th></tr></thead>
       <tbody>
         <tr><th colspan="3" scope="colgroup">Delivery</th></tr>
@@ -342,9 +427,16 @@
         <tr><td>OpenAI and Anthropic revenue growth per quarter</td><td class="fig">83% → 62%</td><td class="src"><a href="https://epoch.ai/gradient-updates/an-update-on-ais-most-important-number">Derived from Epoch AI, Aug 2026</a></td></tr>
         <tr><td>Anthropic valuation ask, as some investors press it</td><td class="fig">$2T → $1.5T</td><td class="src"><a href="https://247wallst.com/investing/2026/10/23/openai-just-cut-its-valuation-target-by-150-billion/">24/7 Wall St., Oct 2026</a></td></tr>
       </tbody>
-    </table>
+    </table></div>
     <p class="finding">Agents change who writes the code. They don't change who is accountable for it.</p>
-    <p class="invite">I write up what I learn as I go on <a href="https://sekmun.substack.com/">Substack</a>. If you're starting to build a loop of your own, that's the best place to follow along, and I'm always glad to compare notes.</p>
+    <p class="invite">I write about <a href="https://sekmun.substack.com/p/pencils-down-rethinking-a-career">loop engineering</a> as I go on <a href="https://sekmun.substack.com/">Substack</a>. If you're starting to build a loop of your own, that's the best place to follow along, and I'm always glad to compare notes.</p>
+    <nav class="readmore" aria-labelledby="more">
+      <h2 id="more">Read more</h2>
+      <ul>
+        <li><a href="https://sekmun.substack.com/p/pencils-down-rethinking-a-career">Pencils Down! Rethinking a career in software engineering</a> <span>on what loop engineering changes about the job</span></li>
+        <li><a href="https://sekmun.substack.com/p/the-strangler-fig-playbook-fixing">The Strangler Fig Playbook</a> <span>for fixing a REST monolith without a big-bang rewrite</span></li>
+      </ul>
+    </nav>
   </section>
 
   <aside class="disclosure" aria-label="How this page was made">
