@@ -401,9 +401,9 @@
   <section aria-labelledby="broke">
     <h2 id="broke">What broke</h2>
     <div class="study">
-      <h3 id="broke-scope">Sprint 57 was under-specified <small>Specify</small></h3>
-      <p>Sprint 57 closed 744 points, and I've shown that as velocity. The other reading is that it started with 260 points planned and finished with 799 in scope: 539 points that weren't specified when the sprint was planned, so the agents discovered the work as they went. Discovered work costs turns. An agent that has to work out what you meant re-reads, re-plans and retries far more than one that has been told.</p>
-      <p>What made that survivable was price, not design. On flat subscriptions with 5-hour windows, those extra turns would have meant someone hitting enter all night and the loop stalling at every limit. On DeepSeek V4.1 Flash they were cheap enough to absorb, and the loop kept running around the clock. Cheap tokens covered the gap; they didn't close it. The fix is upstream, which is why the stage I'm in now is specification-bound. It happens again the moment work is pulled into a sprint before its contract is written.</p>
+      <h3 id="broke-scope">Sprint 57 outran its plan <small>Plan, Specify</small></h3>
+      <p>Sprint 57 closed 744 points, and I've shown that as velocity. The less flattering number is the plan: 260 points at the start, 799 in scope by the end. Much of that growth was deliberate. Once the loop was running unattended I pulled new tickets in as fast as it cleared them, closer to scrumban than scrum, and those points were real work that shipped. But a 260-point forecast against 799 points of scope had stopped being a plan, and some of the incoming tickets were thin when they went in, so the agents had to discover the work as they went. Discovered work costs turns. An agent that has to work out what you meant re-reads, re-plans and retries far more than one that has been told.</p>
+      <p>What made that survivable was price, not design. On flat subscriptions with 5-hour windows, those extra turns would have meant someone hitting enter all night and the loop stalling at every limit. On DeepSeek V4.1 Flash they were cheap enough to absorb, and the loop kept running around the clock. Cheap tokens covered the gap; they didn't close it. If work is going to flow in continuously, the specification has to keep pace with it, which is why the stage I'm in now is specification-bound. It happens again whenever a ticket enters the loop before its contract is written.</p>
 
       <h3 id="broke-creds">Credentials leaked in orchestration <small>Build</small></h3>
       <p>On at least two occasions an API key leaked through the orchestration layer and had to be rotated. That was a design fault, not bad luck. I had treated credentials as setup, handed to agents the way you'd hand them to a new developer, instead of as part of the loop. A loop runs unattended, spawns sub-agents and writes a lot of output, so anything an agent can read can end up somewhere it shouldn't.</p>
@@ -419,8 +419,7 @@
       <tbody>
         <tr><th colspan="3" scope="colgroup">Delivery</th></tr>
         <tr><td>Sprint 57, completed against forecast</td><td class="fig">744 / 260 pts</td><td class="src">ClickUp burnup</td></tr>
-        <tr><td>Sprint 57, scope added while running</td><td class="fig">260 → 799 pts</td><td class="src">ClickUp burnup</td></tr>
-        <tr><td>Sprint 57, scope not specified at planning</td><td class="fig">539 pts</td><td class="src">ClickUp burnup, 799 − 260</td></tr>
+        <tr><td>Sprint 57, scope added while running</td><td class="fig">260 → 799 pts (+539)</td><td class="src">ClickUp burnup</td></tr>
         <tr><td>Busiest day of the year</td><td class="fig">142 contributions</td><td class="src">GitHub, 13 Sep 2026</td></tr>
       </tbody>
       <tbody>
