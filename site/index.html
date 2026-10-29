@@ -201,6 +201,11 @@
   .readmore li { margin-bottom: .35rem; }
   .readmore li::marker { color: var(--heat); }
   .readmore span { color: var(--mute); }
+  .lifecycle { margin: 1.75rem 0 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem 1.75rem; max-width: 56rem; }
+  .lifecycle div { border-top: 3px solid var(--heat-soft); padding-top: .8rem; }
+  .lifecycle dt { font-weight: 800; font-size: 1.05rem; margin-bottom: .3rem; }
+  .lifecycle dd { margin: 0; font-size: .975rem; line-height: 1.45; }
+  @media (max-width: 44rem) { .lifecycle { grid-template-columns: 1fr; gap: 1.1rem; } }
   .invite { margin-top: 3rem; max-width: 38rem; font-size: 1.125rem; }
   .study p.lead { font-weight: 500; }
 </style>
@@ -365,7 +370,7 @@
       <p>Merging, releasing, deploying and switching a feature on are four different decisions. Additive schema changes go out before the services that depend on them, releases pass through UAT before production, source versions are pinned and rollback evidence is kept. Container images are promoted exactly as tested, and Workers that haven't changed aren't redeployed. A feature can be switched on as its own rolling configuration change, without rebuilding accepted code or surprising existing customers.</p>
       <p>A small story shows why this matters. In a recent acceptance test for a scheduled workflow, the business outcome was committed first and delivery recorded separately for each destination. One destination accepted; the external service deliberately rejected the other. The stored outcome stayed put, the interface showed a partial delivery, and the one-off job didn't spawn a successor. When you can't tell whether a send went through, say so. Never report it as a success, and never blindly retry it.</p>
 
-      <h3 id="run">Run <small>Edge architecture, telemetry, security, scale</small></h3>
+      <h3 id="run">Run <small>Edge ingestion at scale, R2 and Parquet, telemetry, security</small></h3>
       <p class="lead">Design for the edge, and instrument the loop as carefully as the product.</p>
       <figure class="diagram">
 <svg viewBox="0 0 760 520" role="img" aria-labelledby="arch-t arch-d">
@@ -375,7 +380,7 @@
 <rect class="box" x="420" y="10" width="300" height="48" rx="6"/><text x="570.0" y="40" text-anchor="middle">Interactive commands</text>
 <rect class="box edge" x="40" y="100" width="300" height="48" rx="6"/><text x="190.0" y="130" text-anchor="middle">Workers, Queues, Workflows</text>
 <rect class="box" x="420" y="100" width="300" height="48" rx="6"/><text x="570.0" y="130" text-anchor="middle">FastAPI on Fly.io</text>
-<rect class="box edge" x="40" y="190" width="300" height="48" rx="6"/><text x="190.0" y="220" text-anchor="middle">R2 raw archive</text>
+<rect class="box edge" x="40" y="190" width="300" height="48" rx="6"/><text x="190.0" y="220" text-anchor="middle">R2: raw events to Parquet</text>
 <rect class="box" x="40" y="280" width="300" height="48" rx="6"/><text x="190.0" y="310" text-anchor="middle">Python batch on Fly.io</text>
 <rect class="box" x="40" y="370" width="680" height="48" rx="6"/><text x="380.0" y="400" text-anchor="middle">PostgreSQL and pgvector</text>
 <rect class="box" x="40" y="460" width="680" height="48" rx="6"/><text x="380.0" y="490" text-anchor="middle">Laravel / Octane and Vue</text>
@@ -389,13 +394,30 @@
 <path class="wire dash" d="M340 124H380V363"/><path class="head" d="M375 362L380 370L385 362z"/>
 <text class="note" x="392" y="262">Hyperdrive</text>
 </svg>
-        <figcaption>Shaded components run on Cloudflare's edge: Workers, Queues and Workflows ingest; R2 holds the raw archive.</figcaption>
+        <figcaption>Shaded components run on Cloudflare's edge: Workers, Queues and Workflows ingest; R2 holds the raw archive, compacted to Parquet.</figcaption>
       </figure>
-      <p>Signed events land on Cloudflare's edge. Each signature is checked and a provisional deduplication claim is taken, coordinated per workspace by Durable Objects; the claim only becomes final once the event is safely queued, and it's released if queuing fails. Live processing and archiving have separate retry and dead-letter paths, so trouble with the archive never eats into the live budget. A Python batch tier compacts the raw archive in R2 into Iceberg tables partitioned by day and tenant, reusing embeddings and caching configuration so that model cost is controlled by design rather than by a billing alert.</p>
+      <p>Ingestion is built to scale at the edge, not in a server room. The platform is designed for 1,000 workspaces and around 1.5 million messages a day, and every one of those events lands on Cloudflare Workers close to where it was sent. Each signature is checked and a provisional deduplication claim is taken, coordinated per workspace by Durable Objects; the claim only becomes final once the event is safely on a Queue, and it's released if queuing fails. Live processing and archiving have separate retry and dead-letter paths, so trouble with the archive never eats into the live budget. I treat that capacity as a design target until production proves it.</p>
+      <p>The archive is where the data design pays off. Raw events go to R2, which charges nothing for egress, so the history can be reread as often as the product needs. A Python batch tier then compacts them into Parquet files under Iceberg tables, partitioned by day and tenant, so a question about one workspace's last week reads that week and that tenant rather than scanning everyone's history. The same tier reuses embeddings and caches configuration, so model cost is controlled by design rather than by a billing alert.</p>
       <p>After every deploy I check what's actually running: its version, health and applied configuration. A green workflow only proves the pipeline finished. On the loop side, every agent session is archived with the model that really served each response, so I can always see who wrote and who reviewed anything that reached production.</p>
       <p>Security lives in the boundaries. Requests are authorised per workspace with PostgreSQL row-level security underneath, tested under a role that can't bypass it, because a tenant-isolation test running as a superuser proves nothing. The privileged ingest and batch services sit behind their own documented trust boundary. Alongside that: raw-body HMAC verification with bounded replay windows, single-use OAuth state bound to the user, encrypted credentials kept out of normal serialisation, explicit channel scopes, and audited operator sessions that expire. Access is always all, assigned or none, never an empty list that can switch filtering off by accident.</p>
-      <p>The platform is designed for 1,000 workspaces and around 1.5 million messages a day, and I treat that as a target until production proves it. Performance work starts from query plans and realistic fixtures, not hunches. On a 200,000-row fixture, partial and expression indexes took one hot lookup from 35.7 ms to 0.10 ms, once both sides of an OR had been made indexable.</p>
+      <p>Performance work starts from query plans and realistic fixtures, not hunches. On a 200,000-row fixture, partial and expression indexes took one hot lookup from 35.7 ms to 0.10 ms, once both sides of an OR had been made indexable.</p>
     </div>
+  </section>
+
+  <section aria-labelledby="beyond">
+    <h2 id="beyond">Beyond the code</h2>
+    <div class="prose">
+      <p>The loop doesn't stop at the repository. The same agents that write the code also wire up everything a product needs to find customers, keep them, support them and get paid, work that usually sits with marketing, support and operations. Each piece goes through the same loop as a feature: a contract, a change, a check, a release.</p>
+    </div>
+    <dl class="lifecycle">
+      <div><dt>Acquisition</dt><dd><a href="https://posthog.com">PostHog</a> product analytics, so every funnel is measured from the first visit.</dd></div>
+      <div><dt>Experiments and flags</dt><dd>PostHog A/B tests and feature flags, which is also how switching a feature on stays separate from deploying it.</dd></div>
+      <div><dt>Retention</dt><dd><a href="https://www.brevo.com">Brevo</a> automated journeys that onboard and re-engage users based on what they actually do.</dd></div>
+      <div><dt>Support</dt><dd><a href="https://www.tawk.to">tawk.to</a> with AI answering the first line of questions, and people picking up the rest.</dd></div>
+      <div><dt>Payments</dt><dd>Billing wired into the same contracts and tests as the rest of the product.</dd></div>
+      <div><dt>Monitoring</dt><dd>Post-deploy checks of what's really running, and telemetry on the loop as well as the product.</dd></div>
+    </dl>
+    <p class="finding">An agent loop can run a whole product, from acquisition to payments. Software engineering is only the part people expect.</p>
   </section>
 
   <section aria-labelledby="broke">
