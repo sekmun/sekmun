@@ -15,9 +15,10 @@ Three things arrived this year: models good enough to keep their code, harnesses
 **Build:** Laravel/Vue, Python and TypeScript on Workers and Node.js; an isolated worktree and throwaway database per agent; models chosen by role through [omp.sh](https://omp.sh), which topped [Composio's comparison of eight harnesses](https://composio.dev/content/best-ai-agent-harnesses).  
 **Verify:** unit coverage of 80.71% (Laravel core) and 95.39% (Python services), browser tests against the real app, 1,726 real-Postgres regression tests, and review by a different model family, verified from routing metadata.  
 **Ship:** infrastructure as code, all CI/CD in GitHub Actions, with merge, release, deploy and activation kept as separate decisions.  
-**Run:** Cloudflare Workers, Queues, Durable Objects and R2 at the edge, a Python batch plane, row-level security, and telemetry on the loop as well as the product.
+**Run:** Cloudflare Workers, Queues, Durable Objects and R2 at the edge, a Python batch plane, row-level security, and telemetry on the loop as well as the product.  
+**What broke:** sprint 57's scope ran 539 points ahead of specification, and credentials leaked through orchestration at least twice. Cheap tokens absorbed the first; agent credentials that expire by design fix the second.
 
-The full notes, with the evidence for each claim, are at [sekmun.com](https://sekmun.com). I write up what I learn as I go on [Substack](https://sekmun.substack.com/).
+The full notes, with the evidence for each claim, are at [sekmun.com](https://sekmun.com). I write up what I learn as I go on [Substack](https://sekmun.substack.com/). Hiring a CTO who can still build the loop? [Message me on LinkedIn](https://www.linkedin.com/in/sekmun/).
 
 <sub>Written by AI, working from the history in my harness, my development environment and git. I directed and checked it; the opinions are mine.</sub>
 

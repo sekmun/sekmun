@@ -398,6 +398,19 @@
     </div>
   </section>
 
+  <section aria-labelledby="broke">
+    <h2 id="broke">What broke</h2>
+    <div class="study">
+      <h3 id="broke-scope">Sprint 57 was under-specified <small>Specify</small></h3>
+      <p>Sprint 57 closed 744 points, and I've shown that as velocity. The other reading is that it started with 260 points planned and finished with 799 in scope: 539 points that weren't specified when the sprint was planned, so the agents discovered the work as they went. Discovered work costs turns. An agent that has to work out what you meant re-reads, re-plans and retries far more than one that has been told.</p>
+      <p>What made that survivable was price, not design. On flat subscriptions with 5-hour windows, those extra turns would have meant someone hitting enter all night and the loop stalling at every limit. On DeepSeek V4.1 Flash they were cheap enough to absorb, and the loop kept running around the clock. Cheap tokens covered the gap; they didn't close it. The fix is upstream, which is why the stage I'm in now is specification-bound. It happens again the moment work is pulled into a sprint before its contract is written.</p>
+
+      <h3 id="broke-creds">Credentials leaked in orchestration <small>Build</small></h3>
+      <p>On at least two occasions an API key leaked through the orchestration layer and had to be rotated. That was a design fault, not bad luck. I had treated credentials as setup, handed to agents the way you'd hand them to a new developer, instead of as part of the loop. A loop runs unattended, spawns sub-agents and writes a lot of output, so anything an agent can read can end up somewhere it shouldn't.</p>
+      <p>Credential lifetimes are now planned as deliberately as the work: what each agent is given, when it expires and how it's revoked. A leaked key that expires in hours is an inconvenience; one that never expires is an incident. It fails again if a long-lived credential slips into an agent's environment, so expiry is designed in from the start rather than added afterwards.</p>
+    </div>
+  </section>
+
   <section aria-labelledby="receipts">
     <h2 id="receipts">Where the numbers come from</h2>
     <div class="prose"><p>Claims about agents deserve the same scrutiny as any other engineering claim, so here is every figure on this page and its source.</p></div>
@@ -407,6 +420,7 @@
         <tr><th colspan="3" scope="colgroup">Delivery</th></tr>
         <tr><td>Sprint 57, completed against forecast</td><td class="fig">744 / 260 pts</td><td class="src">ClickUp burnup</td></tr>
         <tr><td>Sprint 57, scope added while running</td><td class="fig">260 → 799 pts</td><td class="src">ClickUp burnup</td></tr>
+        <tr><td>Sprint 57, scope not specified at planning</td><td class="fig">539 pts</td><td class="src">ClickUp burnup, 799 − 260</td></tr>
         <tr><td>Busiest day of the year</td><td class="fig">142 contributions</td><td class="src">GitHub, 13 Sep 2026</td></tr>
       </tbody>
       <tbody>
@@ -416,6 +430,10 @@
         <tr><td>Real-Postgres regression suite</td><td class="fig">1,726 passed</td><td class="src">Verification record, 7 disclosed skips</td></tr>
         <tr><td>Schema preflight and SQL lifecycle checks</td><td class="fig">20 + 8 passed</td><td class="src">Verification record</td></tr>
         <tr><td>Hot lookup on a 200,000-row fixture</td><td class="fig">35.7 → 0.10 ms</td><td class="src">Recorded benchmark</td></tr>
+      </tbody>
+      <tbody>
+        <tr><th colspan="3" scope="colgroup">Incidents</th></tr>
+        <tr><td>Credentials rotated after leaks in orchestration</td><td class="fig">2 or more</td><td class="src">My incident record</td></tr>
       </tbody>
       <tbody>
         <tr><th colspan="3" scope="colgroup">Harness, models and market</th></tr>
@@ -429,7 +447,7 @@
       </tbody>
     </table></div>
     <p class="finding">Agents change who writes the code. They don't change who is accountable for it.</p>
-    <p class="invite">I write about <a href="https://sekmun.substack.com/p/pencils-down-rethinking-a-career">loop engineering</a> as I go on <a href="https://sekmun.substack.com/">Substack</a>. If you're starting to build a loop of your own, that's the best place to follow along, and I'm always glad to compare notes.</p>
+    <p class="invite">If you're hiring a CTO who can lead the team and still reach in and build the loop, <a href="https://www.linkedin.com/in/sekmun/">message me on LinkedIn</a>. I write about <a href="https://sekmun.substack.com/p/pencils-down-rethinking-a-career">loop engineering</a> as I go on <a href="https://sekmun.substack.com/">Substack</a>, which is the best place to follow along.</p>
     <nav class="readmore" aria-labelledby="more">
       <h2 id="more">Read more</h2>
       <ul>
